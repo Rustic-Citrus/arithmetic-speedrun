@@ -1,6 +1,7 @@
 import random
 from datetime import datetime
 import pandas as pd
+import matplotlib.pyplot as plt
 import pyglet
 
 correct_answer_sound = pyglet.media.load("media/correct_answer.wav",
@@ -61,6 +62,7 @@ def get_input(problem: tuple) -> bool:
         return True
     else:
         print("Incorrect.")
+        print(f"The answer was {solution}.")
         return False
     
 def set_leaderboard(username: str, score: int, difficulty: int, 
@@ -72,11 +74,28 @@ def set_leaderboard(username: str, score: int, difficulty: int,
                 f"{score},{difficulty},{elapsed_time}\n")
     print("Score saved.")
 
-def get_leaderboard():
+def get_leaderboard() -> None:
     """Retrieves the first five rows of the leaderboard and prints it to the 
     console."""
     leaderboard = pd.read_csv("leaderboard.csv")
-    top_ten = leaderboard.sort_values(["difficulty", "score", "elapsed time"], 
+    top_ten = leaderboard.sort_values(["Difficulty", "Score", "Elapsed Time"], 
                                       ascending=[False, False, True])
+    top_ten = top_ten.reset_index(drop=True)
     print("===Leaderboard===")
     print(top_ten.head(5))
+
+def get_progress(username: str) -> None:
+    """Takes a username as an argument and displays a line graph showing the 
+    change in the user's score and elapsed time per round over time."""
+    leaderboard = pd.read_csv("leaderboard.csv")
+    user_data = (leaderboard[leaderboard["Username"] == username])
+    fig, axs = plt.subplots(2, 1)
+    fig.suptitle(f"{username}")
+    axs[0].plot(user_data["Timestamp"], user_data["Score"])
+    axs[0].set_xlabel("datetime")
+    axs[0].set_ylabel("score")
+    axs[1].plot(user_data["Timestamp"], user_data["Elapsed Time"])
+    axs[1].set_xlabel("datetime")
+    axs[1].set_ylabel("elapsed time")
+    fig.tight_layout()
+    plt.show()
