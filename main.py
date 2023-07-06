@@ -65,7 +65,7 @@ while play_again.upper() == "Y":
         see_progress = input("Would you like to see how your score has " + 
                              "changed over time? (press Y)\n>: ")
         if see_progress.upper() == "Y":
-            problems.get_progress(username)
+            problems.get_progress(username, difficulty)
 
     # Ask the user if they want to continue playing. If they press the Y key, 
     # restart the game loop.
