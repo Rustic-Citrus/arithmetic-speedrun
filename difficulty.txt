@@ -1,0 +1,5 @@
+=== Difficulty Settings ===
+1 = EASY (1-digit multiplication)
+2 = MEDIUM (2-digit multiplication)
+3 = HARD (3-digit multiplication)
+4 = EXPERT (4-digit multiplication)
