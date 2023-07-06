@@ -84,18 +84,23 @@ def get_leaderboard() -> None:
     print("===Leaderboard===")
     print(top_ten.head(5))
 
-def get_progress(username: str) -> None:
+def get_progress(username: str, difficulty: int) -> None:
     """Takes a username as an argument and displays a line graph showing the 
     change in the user's score and elapsed time per round over time."""
     leaderboard = pd.read_csv("leaderboard.csv")
-    user_data = (leaderboard[leaderboard["Username"] == username])
+    user_data = leaderboard[(leaderboard["Username"] == username) & 
+                            (leaderboard["Difficulty"] == difficulty)]
+    user_data["Timestamp"] = pd.to_datetime(user_data["Timestamp"])
+    plt.style.use('dark_background')
     fig, axs = plt.subplots(2, 1)
-    fig.suptitle(f"{username}")
+    fig.suptitle(f"{username} - Scores")
     axs[0].plot(user_data["Timestamp"], user_data["Score"])
     axs[0].set_xlabel("datetime")
     axs[0].set_ylabel("score")
+    axs[0].tick_params(axis='x', rotation=45)
     axs[1].plot(user_data["Timestamp"], user_data["Elapsed Time"])
     axs[1].set_xlabel("datetime")
     axs[1].set_ylabel("elapsed time")
+    axs[1].tick_params(axis='x', rotation=45)
     fig.tight_layout()
     plt.show()
