@@ -52,14 +52,14 @@ class Game:
                 self.problems_seen += 1
         correct_ratio = self.correct_answers / self.problems_seen
         self.elapsed_time = round(time.time() - self.start_time, 3)
-        self.score = ((self.difficulty * self.correct_answers) / 
-                      (self.elapsed_time))
+        self.score = int(((self.difficulty * self.correct_answers) / 
+                      (self.elapsed_time)) * 100)
         if correct_ratio >= 0.8:
             media.play_sound("high_score")
         else:
             media.play_sound("low_score")
         print(f"\rElapsed time: {self.elapsed_time} seconds")
-        print(f"You scored {self.score}%.")
+        print(f"Your score was {self.score}!")
         self.get_leaderboard()
 
     def ask_question(self) -> tuple:
