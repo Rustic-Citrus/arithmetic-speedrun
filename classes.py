@@ -34,25 +34,27 @@ class Game:
         self.start_time = start_time
         self.difficulty = difficulty
         self.problem_count = problem_count
-        self.counter = 0
-        self.correct = 0
+        self.problems_seen = 0
+        self.correct_answers = 0
         self.score = 0
         self.username = ""
         self.elapsed_time = .0
 
     def play_round(self, media) -> None:
-        while self.counter < self.problem_count:
+        while self.problems_seen < self.problem_count:
             for n in range(self.problem_count):
                 response = self.ask_question()
                 if response[0] == response[1]:
-                    self.correct += 1
+                    self.correct_answers += 1
                     media.play_sound("correct_answer")
                 else:
                     media.play_sound("incorrect_answer")
-                self.counter += 1
-        self.score = (self.correct / self.counter) * 100
+                self.problems_seen += 1
+        correct_ratio = self.correct_answers / self.problems_seen
         self.elapsed_time = round(time.time() - self.start_time, 3)
-        if self.score >= 80:
+        self.score = ((self.difficulty * self.correct_answers) / 
+                      (self.elapsed_time))
+        if correct_ratio >= 0.8:
             media.play_sound("high_score")
         else:
             media.play_sound("low_score")
