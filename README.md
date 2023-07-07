@@ -1,4 +1,4 @@
-# Arithmetic Speed Run!
+# Arithmetic Speedrun!
 
 ## Introduction
 
