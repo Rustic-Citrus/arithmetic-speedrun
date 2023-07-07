@@ -29,15 +29,15 @@ class MediaFiles:
                 self.low_score_sound.play()
 
 class Game:
-    def __init__(self, problem_count: int, 
-                 difficulty: int, start_time) -> None:
+    def __init__(self, problem_count: int, difficulty: int, username: str, 
+                 start_time) -> None:
         self.start_time = start_time
         self.difficulty = difficulty
         self.problem_count = problem_count
         self.problems_seen = 0
         self.correct_answers = 0
         self.score = 0
-        self.username = ""
+        self.username = username
         self.elapsed_time = .0
 
     def play_round(self, media) -> None:
