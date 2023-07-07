@@ -37,7 +37,7 @@ while play_again.upper() == "Y":
             counter += 1
 
     # Calculate the total time the user took to complete the problems.
-    elapsed_time = time.time() - start_time
+    elapsed_time = round(time.time() - start_time, 3)
 
     # Play a different sound depending on whether the user got a high or low 
     # score.
