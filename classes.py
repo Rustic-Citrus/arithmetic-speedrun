@@ -7,6 +7,8 @@ import pyglet
 
 class MediaFiles:
     def __init__(self) -> None:
+        """Initializes a MediaFiles instance with loaded sound files for game 
+        feedback."""
         self.correct_answer_sound = pyglet.media.load(
             ("media/correct_answer.wav"), streaming=False)
         self.incorrect_answer_sound = pyglet.media.load(
@@ -31,6 +33,8 @@ class MediaFiles:
 class Game:
     def __init__(self, problem_count: int, difficulty: int, username: str, 
                  start_time) -> None:
+        """Initializes a new Game instance with specific problem count, 
+        difficulty, and user data."""
         self.start_time = start_time
         self.difficulty = difficulty
         self.problem_count = problem_count
@@ -41,6 +45,8 @@ class Game:
         self.elapsed_time = .0
 
     def play_round(self, media) -> None:
+        """Plays a round of the game, calculates the score, and updates the 
+        leaderboard."""
         while self.problems_seen < self.problem_count:
             for n in range(self.problem_count):
                 response = self.ask_question()
@@ -63,9 +69,8 @@ class Game:
         self.get_leaderboard()
 
     def ask_question(self) -> tuple:
-        """Takes a get_question() tuple, requests the solution from the user, 
-        compares the actual input with the expected input, then returns either 
-        True or False depending on whether the user gets the question right."""
+        """Generates a multiplication problem, assesses user's answer, and 
+        returns a tuple of user's and correct answers."""
         x = y = 0
         match self.difficulty:
             case 1:
@@ -96,8 +101,8 @@ class Game:
         return (response, solution)
         
     def save_score(self) -> None:
-        """Writes the user's name, a timestamp in ISO format, their score, and 
-        the elapsed time of the quiz to leaderboard.txt."""
+        """Saves the user's score, difficulty, and time to the leaderboard 
+        CSV."""
         with open("leaderboard.csv", "a") as f:
             f.write(f"{self.username},{datetime.now().isoformat()}," +
                     f"{self.score},{self.difficulty},{self.elapsed_time}\n")
@@ -115,8 +120,8 @@ class Game:
         print(top_ten.head(5))
 
     def view_graph(self) -> None:
-        """Takes a username as an argument and displays a line graph showing 
-        the change in the user's score and elapsed time per round over time."""
+        """Generates and displays a graph of the user's scores and time 
+        taken."""
         leaderboard = pd.read_csv("leaderboard.csv")
         user_data = pd.DataFrame(leaderboard[
             (leaderboard["Username"] == self.username) & 
