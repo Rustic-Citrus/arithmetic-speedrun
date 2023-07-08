@@ -6,9 +6,8 @@ def introduction() -> str:
     return intro
 
 def difficulty() -> int:
-    """Reads the difficulty settings to the user and requests an integer 
-    choice for difficulty, ranging from 1 to 6. If the user enters a valid 
-    integer, it is returned with this function."""
+    """Asks the user for a difficulty level (1-6) and returns the user's 
+    input."""
     with open("difficulty.txt", "r") as f:
         difficulty_settings = f.readlines()
     print("".join(difficulty_settings))
@@ -23,6 +22,7 @@ def difficulty() -> int:
     return user_setting
 
 def problem_count() -> int:
+    """Asks the user for a problem count (>=5) and returns the user's input."""
     problem_count = 0
     while problem_count < 5:
         try:
