@@ -124,8 +124,7 @@ class Game:
         taken."""
         leaderboard = pd.read_csv("leaderboard.csv")
         user_data = pd.DataFrame(leaderboard[
-            (leaderboard["Username"] == self.username) & 
-            (leaderboard["Difficulty"] == self.difficulty)])
+            (leaderboard["Username"] == self.username)])
         user_data["Timestamp"] = user_data["Timestamp"].apply(
             lambda x: pd.to_datetime(x))
         plt.style.use('dark_background')
