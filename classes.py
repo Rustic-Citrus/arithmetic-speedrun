@@ -133,7 +133,7 @@ class Game:
         the console."""
         leaderboard = pd.read_csv("leaderboard.csv")
         top_ten = leaderboard.sort_values(
-            ["Difficulty", "Score", "Elapsed Time"], 
+            ["Score", "Difficulty", "Elapsed Time"], 
             ascending=[False, False, True])
         top_ten = top_ten.reset_index(drop=True)
         print("===Leaderboard===")
@@ -144,7 +144,9 @@ class Game:
         taken."""
         leaderboard = pd.read_csv("leaderboard.csv")
         user_data = pd.DataFrame(leaderboard[
-            (leaderboard["Username"] == self.username)])
+            (leaderboard["Username"] == self.username) &
+            (leaderboard["Difficulty"] == self.difficulty) &
+            (leaderboard["Operation"] == self.operation_name)])
         user_data["Timestamp"] = user_data["Timestamp"].apply(
             lambda x: pd.to_datetime(x))
         plt.style.use('dark_background')
