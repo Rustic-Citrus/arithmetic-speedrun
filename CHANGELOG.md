@@ -1,9 +1,20 @@
 # Changelog
 
-## [0.1.2] - 2023-07-07
+## [0.2.1] - 2023-07-10
+### Added
+- Added other arithmetic operations: division, addition and subtraction.
+- Added some exception handling.
+
+## [0.2.0] - 2023-07-07
 ### Added
 - Added classes.py.
 - Added the MediaFiles and Game classes.
+
+### Changed
+- Changed the scoring system.
+
+### Removed
+- Removed problems.py.
 
 ## [0.1.1] - 2023-07-06
 ### Added
