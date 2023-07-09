@@ -30,6 +30,7 @@ class MediaFiles:
             case "low_score":
                 self.low_score_sound.play()
 
+
 class Game:
     def __init__(self, problem_count: int, difficulty: int, username: str, 
                  start_time, operation) -> None:
@@ -122,7 +123,9 @@ class Game:
         CSV."""
         with open("leaderboard.csv", "a") as f:
             f.write(
-                f"{self.username},{datetime.now().isoformat()},{self.score},{self.difficulty},{self.operation_name},{self.elapsed_time}\n")
+                f"{self.username},{datetime.now().isoformat()},{self.score},"
+                f"{self.difficulty},{self.operation_name},"
+                f"{self.elapsed_time}\n")
         print("Score saved.")
 
     def get_leaderboard(self) -> None:
