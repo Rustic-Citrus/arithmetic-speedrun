@@ -32,7 +32,7 @@ class MediaFiles:
 
 class Game:
     def __init__(self, problem_count: int, difficulty: int, username: str, 
-                 start_time) -> None:
+                 start_time, operation) -> None:
         """Initializes a new Game instance with specific problem count, 
         difficulty, and user data."""
         self.start_time = start_time
@@ -43,6 +43,18 @@ class Game:
         self.score = 0
         self.username = username
         self.elapsed_time = .0
+        self.operation = operation[0]
+        self.operator = operation[1]
+        self.operation_name = None
+        match self.operator:
+            case "+":
+                self.operation_name = "Addition"
+            case "-":
+                self.operation_name = "Subtraction"
+            case "*":
+                self.operation_name = "Multiplication"
+            case "/":
+                self.operation_name = "Division"
 
     def play_round(self, media) -> None:
         """Plays a round of the game, calculates the score, and updates the 
@@ -58,7 +70,7 @@ class Game:
                 self.problems_seen += 1
         correct_ratio = self.correct_answers / self.problems_seen
         self.elapsed_time = round(time.time() - self.start_time, 3)
-        self.score = int(((self.difficulty * self.correct_answers) / 
+        self.score = int((self.difficulty * (correct_ratio * 10) / 
                       (self.elapsed_time)) * 100)
         if correct_ratio >= 0.8:
             media.play_sound("high_score")
@@ -69,7 +81,7 @@ class Game:
         self.get_leaderboard()
 
     def ask_question(self) -> tuple:
-        """Generates a multiplication problem, assesses user's answer, and 
+        """Generates a arithmetic problem, assesses user's answer, and 
         returns a tuple of user's and correct answers."""
         x = y = 0
         match self.difficulty:
@@ -89,23 +101,28 @@ class Game:
             case 6:
                 x, y = [random.randint(100, 999) 
                         for n in range(2)]
-        solution = x * y
-        equation = f"{x} * {y} = x"
+        solution = self.operation(x, y)
+        equation = f"{x} {self.operator} {y} = x"
         print(equation)
-        response = int(input("x = "))
-        if response == solution:
-            print("Correct!")
-        else:
-            print("Incorrect.")
-            print(f"The answer was {solution}.")
+        response = None
+        while response is None:
+            try:
+                response = float(input("x = "))
+                if response == solution:
+                    print("Correct!")
+                else:
+                    print("Incorrect.")
+                    print(f"The answer was {solution}.")
+            except ValueError:
+                print("Error: Type the solution as a number.")
         return (response, solution)
         
     def save_score(self) -> None:
         """Saves the user's score, difficulty, and time to the leaderboard 
         CSV."""
         with open("leaderboard.csv", "a") as f:
-            f.write(f"{self.username},{datetime.now().isoformat()}," +
-                    f"{self.score},{self.difficulty},{self.elapsed_time}\n")
+            f.write(
+                f"{self.username},{datetime.now().isoformat()},{self.score},{self.difficulty},{self.operation_name},{self.elapsed_time}\n")
         print("Score saved.")
 
     def get_leaderboard(self) -> None:
@@ -129,7 +146,7 @@ class Game:
             lambda x: pd.to_datetime(x))
         plt.style.use('dark_background')
         fig, axs = plt.subplots(2, 1)
-        fig.suptitle(f"{self.username} - Scores")
+        fig.suptitle(f"{self.username} - Scores for {self.operation_name}")
         axs[0].plot(user_data["Timestamp"], user_data["Score"])
         axs[0].set_ylabel("Score")
         axs[0].tick_params(axis='x', rotation=45)
