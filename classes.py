@@ -115,7 +115,7 @@ class Game:
                     print("Incorrect.")
                     print(f"The answer was {solution}.")
             except ValueError:
-                print("Error: Type the solution as a number.")
+                print("ValueError: Type the solution as a number.")
         return (response, solution)
         
     def save_score(self) -> None:
@@ -140,8 +140,7 @@ class Game:
         print(top_ten.head(5))
 
     def view_graph(self) -> None:
-        """Generates and displays a graph of the user's scores and time 
-        taken."""
+        """Generates and displays a graph of the user's scores."""
         leaderboard = pd.read_csv("leaderboard.csv")
         user_data = pd.DataFrame(leaderboard[
             (leaderboard["Username"] == self.username) &
@@ -150,14 +149,15 @@ class Game:
         user_data["Timestamp"] = user_data["Timestamp"].apply(
             lambda x: pd.to_datetime(x))
         plt.style.use('dark_background')
-        fig, axs = plt.subplots(2, 1)
+        fig, ax = plt.subplots(1, 1)
         fig.suptitle(f"{self.username} - Scores for {self.operation_name}")
-        axs[0].plot(user_data["Timestamp"], user_data["Score"])
-        axs[0].set_ylabel("Score")
-        axs[0].tick_params(axis='x', rotation=45)
-        axs[1].plot(user_data["Timestamp"], user_data["Elapsed Time"])
-        axs[1].set_xlabel("Date & Time")
-        axs[1].set_ylabel("Time Taken")
-        axs[1].tick_params(axis='x', rotation=45)
+        ax.plot(user_data["Timestamp"], user_data["Score"], 
+                    color="#FFFF00")
+        ax.scatter(user_data["Timestamp"], user_data["Score"], 
+                    color="#FFFFFF")
+        ax.set_ylabel("Score")
+        ax.tick_params(axis='x', rotation=45)
+        ax.set_xlabel("Date & Time")
+        ax.tick_params(axis='x', rotation=45)
         fig.tight_layout()
         plt.show()
