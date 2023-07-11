@@ -23,20 +23,24 @@ def difficulty() -> int:
     with open("difficulty.txt", "r") as f:
         difficulty_settings = f.readlines()
     print("".join(difficulty_settings))
-    user_setting = ""
-    while (not isinstance(user_setting, int) or user_setting > 6 or 
-        user_setting < 1):
-        user_setting = int(input("Choose a difficulty setting:\n>: "))
-        if not isinstance(user_setting, int):
+    user_setting = None
+    while user_setting is None:
+        try:
+            user_setting = int(input("Choose a difficulty setting:\n>: "))
+            if not isinstance(user_setting, int):
+                raise TypeError
+            elif (user_setting > 6 or user_setting < 1):
+                raise ValueError
+        except TypeError:
             print("TypeError: difficulty argument should be an integer.")
-        elif (user_setting > 6 or user_setting < 1):
+        except ValueError:
             print("ValueError: difficulty should be between 1 and 6.")
     return user_setting
 
 def problem_count() -> int:
     """Asks the user for a problem count (>=5) and returns the user's input."""
-    problem_count = 0
-    while problem_count < 5:
+    problem_count = None
+    while problem_count is None:
         try:
             problem_count = int(
                 input("How many problems do you want to try?\n>: "))
