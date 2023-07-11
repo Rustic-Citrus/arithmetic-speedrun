@@ -53,8 +53,8 @@ def problem_count() -> int:
 def operation() -> tuple:
     """Asks the user to choose an arithmetic operation and returns the user's 
     choice."""
-    options = ["=== Operations ===\n", "1. Addition\n", "2. Subtraction\n",
-                "3. Multiplication\n", "4. Division"]
+    options = ["=== Operations ===\n", "1 = Addition\n", "2 = Subtraction\n",
+                "3 = Multiplication\n", "4 = Division"]
     print("".join(options))
     operation = None
     while operation is None:
