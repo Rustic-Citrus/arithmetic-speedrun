@@ -71,8 +71,8 @@ class Game:
                 self.problems_seen += 1
         correct_ratio = self.correct_answers / self.problems_seen
         self.elapsed_time = round(time.time() - self.start_time, 3)
-        self.score = int((self.difficulty * (correct_ratio * 10) / 
-                      (self.elapsed_time)) * 100)
+        self.score = int(((self.difficulty * correct_ratio * self.problem_count
+                          * 10) / self.elapsed_time) * 100)
         if correct_ratio >= 0.8:
             media.play_sound("high_score")
         else:
