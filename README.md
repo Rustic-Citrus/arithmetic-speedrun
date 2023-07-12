@@ -20,7 +20,7 @@ For recent changes, check CHANGELOG.md.
 
 ## Upcoming Changes
 
-- GUI.
+- Provide a GUI for the application using Tkinter.
 
 ## Thanks
 
