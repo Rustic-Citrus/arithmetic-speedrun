@@ -1,4 +1,11 @@
 # Changelog
+## [0.2.2] - 2023-07-11
+### Changed
+- Fixed the field order in leaderboard.csv.
+- Changed score formula in classes.py to account for number of problems solved.
+- Improved exception handling in setup.py.
+- Changed the name of a few attributes in the Game class.
+- Fixed the same equation appearing more than once in a round.
 
 ## [0.2.1] - 2023-07-10
 ### Added
