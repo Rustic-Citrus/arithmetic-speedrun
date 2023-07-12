@@ -38,8 +38,8 @@ class Game:
         difficulty, and user data."""
         self.start_time = start_time
         self.difficulty = difficulty
-        self.problem_count = problem_count
-        self.problems_seen = 0
+        self.problem_total = problem_count
+        self.problem_counter = 0
         self.correct_answers = 0
         self.score = 0
         self.username = username
@@ -47,6 +47,7 @@ class Game:
         self.operation = operation[0]
         self.operator = operation[1]
         self.operation_name = None
+        self.equations_seen = list()
         match self.operator:
             case "+":
                 self.operation_name = "Addition"
@@ -60,18 +61,18 @@ class Game:
     def play_round(self, media) -> None:
         """Plays a round of the game, calculates the score, and updates the 
         leaderboard."""
-        while self.problems_seen < self.problem_count:
-            for n in range(self.problem_count):
+        while self.problem_counter < self.problem_total:
+            for n in range(self.problem_total):
                 response = self.ask_question()
                 if response[0] == response[1]:
                     self.correct_answers += 1
                     media.play_sound("correct_answer")
                 else:
                     media.play_sound("incorrect_answer")
-                self.problems_seen += 1
-        correct_ratio = self.correct_answers / self.problems_seen
+                self.problem_counter += 1
+        correct_ratio = self.correct_answers / self.problem_counter
         self.elapsed_time = round(time.time() - self.start_time, 3)
-        self.score = int(((self.difficulty * correct_ratio * self.problem_count
+        self.score = int(((self.difficulty * correct_ratio * self.problem_total
                           * 10) / self.elapsed_time) * 100)
         if correct_ratio >= 0.8:
             media.play_sound("high_score")
@@ -85,25 +86,37 @@ class Game:
         """Generates a arithmetic problem, assesses user's answer, and 
         returns a tuple of user's and correct answers."""
         x = y = 0
-        match self.difficulty:
-            case 1:
-                x, y = [random.randint(1, 9) for n in range(2)]
-            case 2:
-                x = random.randint(10, 99)
-                y = random.randint(1, 9)
-            case 3:
-                x = random.randint(100, 999)
-                y = random.randint(1, 9)
-            case 4:
-                x, y = [random.randint(10, 99) for n in range(2)]
-            case 5:
-                x = random.randint(10, 99)
-                y = random.randint(100, 999)
-            case 6:
-                x, y = [random.randint(100, 999) 
-                        for n in range(2)]
-        solution = self.operation(x, y)
-        equation = f"{x} {self.operator} {y} = x"
+        equation = reverse_equation = solution = None
+        equation_is_new = False
+        while not equation_is_new:
+            x = y = 0
+            match self.difficulty:
+                case 1:
+                    x, y = [random.randint(1, 9) for n in range(2)]
+                case 2:
+                    x = random.randint(10, 99)
+                    y = random.randint(1, 9)
+                case 3:
+                    x = random.randint(100, 999)
+                    y = random.randint(1, 9)
+                case 4:
+                    x, y = [random.randint(10, 99) for n in range(2)]
+                case 5:
+                    x = random.randint(10, 99)
+                    y = random.randint(100, 999)
+                case 6:
+                    x, y = [random.randint(100, 999) 
+                            for n in range(2)]
+            solution = self.operation(x, y)
+            equation = f"{x} {self.operator} {y} = x"
+            reverse_equation = f"{y} {self.operator} {x} = x"
+            if ((equation not in self.equations_seen) and 
+                (reverse_equation not in self.equations_seen)):
+                equation_is_new = True
+                self.equations_seen.append(equation)
+                self.equations_seen.append(reverse_equation)
+            else:
+                continue
         print(equation)
         response = None
         while response is None:
