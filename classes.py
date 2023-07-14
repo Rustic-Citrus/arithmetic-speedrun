@@ -1,9 +1,14 @@
 import random
 from datetime import datetime
 import time
+import tkinter as tk
+from tkinter import ttk
 import pandas as pd
 import matplotlib.pyplot as plt
 import pyglet
+
+HEADING = ("MS Gothic", 18)
+BODY = ("MS Gothic", 14)
 
 class MediaFiles:
     def __init__(self) -> None:
@@ -174,3 +179,72 @@ class Game:
         ax.tick_params(axis='x', rotation=45)
         fig.tight_layout()
         plt.show()
+
+
+class App(Game):
+    def __init__(self, root=tk.Tk()):
+        self.root = root
+        self.root.title("ArithmeticSpeedrun")
+        self.root.geometry("400x600")
+        self.root.resizable(0, 0)
+
+    def get_start_menu(self):
+        self.start_menu = tk.Frame(self.root)
+        greeting = tk.Label(self.start_menu, 
+                            text="Welcome\nto\nArithmetic Speedrun!", 
+                            font=HEADING)
+        greeting.grid(row=0, pady=(0, 20))
+        start = tk.Button(self.start_menu, text="Start", 
+                          font=BODY, 
+                          command=self.get_choose_username)
+        start.grid(row=1, pady=(0, 20))
+        instructions = tk.Button(self.start_menu, text="Instructions", 
+                                 font=BODY)
+        instructions.grid(row=2, pady=(0, 20))
+        leaderboard = tk.Button(self.start_menu, text="Leaderboard", 
+                                font=BODY)
+        leaderboard.grid(row=3, pady=(0, 100))
+        self.root.grid_rowconfigure(0, weight=1)
+        self.root.grid_columnconfigure(0, weight=1)
+        self.start_menu.grid()
+        self.root.mainloop()
+
+    def get_choose_username(self):
+        self.start_menu.grid_remove()
+        self.choose_username = tk.Frame(self.root)
+        prompt = tk.Label(self.choose_username, text="Choose your username:", 
+                          font=HEADING)
+        prompt.grid(row=0, pady=(0, 20))
+        global username_entry
+        username_entry = tk.Entry(self.choose_username, font=BODY)
+        username_entry.grid(row=1, pady=(0, 0))
+        next = tk.Button(self.choose_username, text="Next", 
+                           font=BODY, command=self.get_choose_operation)
+        next.grid(row=3, pady=(100, 40))
+        self.choose_username.grid()
+        
+    def get_choose_operation(self):
+        self.username = username_entry.get()
+        self.choose_username.grid_remove()
+        self.choose_operation = tk.Frame(self.root)
+        prompt = tk.Label(self.choose_operation, text="Choose an operation:", 
+                          font=HEADING)
+        prompt.grid(row=0, pady=(0, 20))
+        addition = tk.Button(self.choose_operation, text="Addition", font=BODY)
+        addition.grid(row=1, pady=(0, 20))
+        subtraction = tk.Button(self.choose_operation, text="Subtraction", 
+                                font=BODY)
+        subtraction.grid(row=2, pady=(0, 20))
+        multiplication = tk.Button(self.choose_operation, 
+                                   text="Multiplication", font=BODY)
+        multiplication.grid(row=3, pady=(0, 20))
+        division = tk.Button(self.choose_operation, text="Division", font=BODY)
+        division.grid(row=4, pady=(0, 20))
+        self.choose_operation.grid()
+
+    def end_round(self, game):
+        self.save_button = tk.Button(self.root, text="Save Score",
+                                     command=game.save_score)
+
+my_app = App()
+my_app.get_start_menu()

@@ -5,9 +5,10 @@ import time
 if setup.check_cwd():
     print(setup.introduction())
     media = classes.MediaFiles()
+    game = classes.App()
     username = input("Choose a username.\n>: ")
     play_again = "Y"
-    while play_again.upper() == "Y":
+    while game:
         operation = setup.operation()
         difficulty = setup.difficulty()
         problem_count = setup.problem_count()
