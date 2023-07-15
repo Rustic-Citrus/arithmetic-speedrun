@@ -1,4 +1,19 @@
 # Changelog
+## [0.3.0] - 2023-07-15
+### Added
+- Added a GUI using the tkinter module.
+- Added click_button.wav.
+- Added startup_sound.wav.
+
+### Changed
+- Changed classes.py to app.py.
+- Changed the name of the MediaFiles class to Soundtrack.
+- Moved the Soundtrack class to a separate file called soundtrack.py.
+
+### Removed
+- Removed setup.py.
+- Removed difficulty.txt.
+
 ## [0.2.2] - 2023-07-11
 ### Changed
 - Fixed the field order in leaderboard.csv.
