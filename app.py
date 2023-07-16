@@ -175,6 +175,8 @@ class App(Game):
         self.button_style.configure("Custom.TButton", font=BODY)
         self.treeview_style = ttk.Style(self.root)
         self.treeview_style.configure("Custom.TTreeview", font=("Arial", 12))
+        self.label_heading_style = ttk.Style(self.root)
+        self.label_heading_style.configure("Heading.TLabel", font=HEADING)
         self.root.title("ArithmeticSpeedrun")
         self.root.geometry("400x600")
         self.root.resizable(False, False)
@@ -322,41 +324,47 @@ class App(Game):
         username_entry.focus_set()
         
     def get_operation_frame(self):
+        """Displays the operation frame."""
         def next_function(operation):
+            """Removes the operation frame and displays the difficulty frame."""
             self.set_operation(operation)
             operation_frame.grid_remove()
             self.get_difficulty_frame()
             self.media.play_sound("click_button")
 
         def back_function():
+            """Removes the operation frmame and displays the difficulty 
+            frame."""
             operation_frame.grid_remove()
             self.get_username_frame()
             self.media.play_sound("click_button")
 
-        operation_frame = tk.Frame(self.root)
-        prompt_label = tk.Label(operation_frame, text="Choose an operation:",
-                                font=HEADING)
+        operation_frame = ttk.Frame(self.root)
+        prompt_label = ttk.Label(operation_frame, text="Choose an operation:",
+                                style="Heading.TLabel")
         prompt_label.grid(row=0, pady=(0, 20))
-        addition_button = tk.Button(operation_frame, text="Addition", 
-                                    font=BODY, 
-                                    command=lambda: next_function("Addition"))
+        addition_button = ttk.Button(operation_frame, text="Addition", 
+                                     style="Custom.TButton",
+                                     command=lambda: next_function("Addition"))
         addition_button.grid(row=1, pady=(0, 20))
-        subtraction_button = tk.Button(operation_frame, 
-                                       text="Subtraction", font=BODY,
-                                       command=lambda: 
-                                       next_function("Subtraction"))
+        subtraction_button = ttk.Button(operation_frame, 
+                                       text="Subtraction", 
+                                       style="Custom.TButton",
+                                       command=lambda: next_function
+                                       ("Subtraction"))
         subtraction_button.grid(row=2, pady=(0, 20))
-        multiplication_button = tk.Button(operation_frame,
-                                          text="Multiplication", font=BODY,
-                                          command=lambda:
-                                          next_function("Multiplication"))
+        multiplication_button = ttk.Button(operation_frame,
+                                          text="Multiplication", 
+                                          style="Custom.TButton",
+                                          command=lambda: next_function
+                                          ("Multiplication"))
         multiplication_button.grid(row=3, pady=(0, 20))
-        division_button = tk.Button(operation_frame, text="Division", 
-                                    font=BODY, 
+        division_button = ttk.Button(operation_frame, text="Division", 
+                                    style="Custom.TButton", 
                                     command=lambda: next_function("Division"))
         division_button.grid(row=4, pady=(0, 20))
-        back_button = tk.Button(operation_frame, text="Back", font=BODY, 
-                                command=back_function)
+        back_button = ttk.Button(operation_frame, text="Back", 
+                                 style="Custom.TButton", command=back_function)
         back_button.grid(row=5, pady=(40, 20))
         operation_frame.grid()
 
