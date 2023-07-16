@@ -140,7 +140,7 @@ class Game:
         top_ten = top_ten.reset_index(drop=True)
         return top_ten
 
-    def view_graph(self) -> None:
+    def view_graph(self):
         """Generates and displays a graph of the user's scores."""
         leaderboard = pd.read_csv("leaderboard.csv")
         user_data = pd.DataFrame(leaderboard[
@@ -149,16 +149,17 @@ class Game:
             (leaderboard["Operation"] == self.operation_name)])
         user_data["Timestamp"] = user_data["Timestamp"].apply(
             lambda x: pd.to_datetime(x))
+        date_strings = user_data["Timestamp"].apply(
+            lambda x: x.strftime("%d/%m/%Y %H:%M"))
         plt.style.use('dark_background')
         fig, ax = plt.subplots(1, 1)
         fig.suptitle(f"{self.username} - Scores for {self.operation_name}")
-        ax.plot(user_data["Timestamp"], user_data["Score"], 
-                    color="#FFFF00")
-        ax.scatter(user_data["Timestamp"], user_data["Score"], 
-                    color="#FFFFFF")
+        ax.plot(user_data["Timestamp"], user_data["Score"], color="#FFFF00")
+        ax.scatter(user_data["Timestamp"], user_data["Score"], color="#FFFFFF")
         ax.set_ylabel("Score")
         ax.tick_params(axis='x', rotation=45)
         ax.set_xlabel("Date & Time")
+        ax.set_xticklabels(date_strings)
         ax.tick_params(axis='x', rotation=45)
         fig.tight_layout()
         plt.show()
