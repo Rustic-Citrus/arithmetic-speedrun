@@ -7,4 +7,4 @@ if os.getcwd()[-19:]:
     game = app.App(media)
 else:
     print("Error: Make sure that the current working directory is "
-          "the '/arithmetic-speedrun' folder.")
+    "the '/arithmetic-speedrun' folder.")
