@@ -1,15 +1,10 @@
 Username,Timestamp,Score,Difficulty,Operation,Elapsed Time
-Harry,2023-07-14T17:38:09.368245,602,1,Addition,8.293
-Harry,2023-07-14T17:43:18.669611,387,1,Multiplication,12.903
-Harry,2023-07-14T17:45:02.033066,378,1,Multiplication,10.56
-Harry,2023-07-14T17:47:41.417926,522,1,Multiplication,9.563
-Harry,2023-07-14T17:54:06.878616,635,1,Multiplication,7.869
-Harry,2023-07-14T21:12:54.947777,247,1,Addition,16.177
-Harry,2023-07-15T12:00:07.532765,464,1,Multiplication,10.77
-Harry,2023-07-15T12:01:55.731544,523,1,Multiplication,9.55
-Harry,2023-07-15T17:41:32.026401,517,1,Multiplication,9.662
-Harry,2023-07-15T18:03:14.697654,586,1,Multiplication,8.532
-Harry,2023-07-15T18:20:08.057060,446,1,Multiplication,11.206
-Harry,2023-07-15T18:26:28.094698,149,2,Multiplication,67.08
-Harry,2023-07-15T18:51:24.705108,638,1,Multiplication,7.83
-Harry,2023-07-15T18:53:01.497183,186,2,Multiplication,53.686
+Harry,2023-07-16T18:22:46.949589,183,1,Multiplication,10.913
+Harry,2023-07-16T18:24:30.284075,246,1,Multiplication,8.12
+Harry,2023-07-16T18:25:26.828967,276,2,Multiplication,36.17
+Harry,2023-07-16T18:26:54.483557,368,2,Multiplication,27.154
+Harry,2023-07-16T18:29:17.749452,315,3,Multiplication,118.759
+Harry,2023-07-16T18:36:48.698430,193,1,Multiplication,10.353
+Harry,2023-07-16T18:38:20.397998,234,1,Multiplication,8.511
+Harry,2023-07-16T18:40:36.677445,252,1,Multiplication,7.907
+Harry,2023-07-16T18:51:31.768389,267,2,Multiplication,37.435

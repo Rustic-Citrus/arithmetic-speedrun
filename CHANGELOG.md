@@ -1,4 +1,18 @@
 # Changelog
+## [0.3.1] - 2023-07-16
+### Added
+- Added an error message box that informs the user their username cannot be empty.
+- Added an information message box that informs the user that division solutions are calculated to 2 decimal places.
+- Added an information message box that tells the user their score was successfully saved.
+- Added docstrings to several methods and functions.
+
+### Changed
+- Changed the widgets to Tk themed widgets for a more modern-looking aesthetic.
+- Fixed the division questions so that the answers would be floating-point numbers, not integers, and that the solutions would be rounded to 2 decimal places.
+- Changed the score calculation formula so that elapsed time carries less weight in comparison to difficulty, accuracy and number of problems.
+
+    score = ((total_problems ** (difficulty + 1)) / elapsed_time) * (correct_ratio * 100)
+
 ## [0.3.0] - 2023-07-15
 ### Added
 - Added a GUI using the tkinter module.
