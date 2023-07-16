@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 HEADING = ("MS Gothic", 18)
 BODY = ("MS Gothic", 14)
 
+
+
 difficulty_dict = {1: "Easy", 2: "Basic", 3: "Medium", 4: "Moderate",
                    5: "Challenging", 6: "Hard"}
 operation_dict = {"Addition": operator.add, "Subtraction": operator.sub, 
@@ -169,9 +171,13 @@ class App(Game):
         """Creates an instance of an App class."""
         super().__init__(media)
         self.root = root
+        self.button_style = ttk.Style(self.root)
+        self.button_style.configure("Custom.TButton", font=BODY)
         self.root.title("ArithmeticSpeedrun")
         self.root.geometry("400x600")
         self.root.resizable(False, False)
+        self.root.grid_rowconfigure(0, weight=1)
+        self.root.grid_columnconfigure(0, weight=1)
         self.get_main_menu_frame()
         self.media.play_sound("startup")
         self.root.mainloop()
@@ -199,23 +205,23 @@ class App(Game):
             self.get_leaderboard_frame()
             self.media.play_sound("click_button")
 
-        main_menu_frame = tk.Frame(self.root)
-        greeting_label = tk.Label(main_menu_frame,
+        main_menu_frame = ttk.Frame(self.root)
+        greeting_label = ttk.Label(main_menu_frame,
                                   text="Welcome\nto\nArithmetic Speedrun!",
-                                  font=HEADING)
-        greeting_label.grid(row=0, pady=(0, 20))
-        start_button = tk.Button(main_menu_frame, text="Start",
-                                 font=BODY, command=start_function)
+                                  font=HEADING, justify="center")
+        greeting_label.grid(row=0, pady=(0, 20), sticky="NSEW")
+        start_button = ttk.Button(main_menu_frame, text="Start",
+                                  style="Custom.TButton", command=start_function)
         start_button.grid(row=1, pady=(0, 20))
-        instructions_button = tk.Button(main_menu_frame, text="Instructions",
-                                        font=BODY, 
-                                        command=instructions_function)
+        instructions_button = ttk.Button(main_menu_frame, text="Instructions", 
+                                         style="Custom.TButton", 
+                                         command=instructions_function)        
         instructions_button.grid(row=2, pady=(0, 20))
-        leaderboard_button = tk.Button(main_menu_frame, text="Leaderboard",
-                                       font=BODY, command=leaderboard_function)
+        leaderboard_button = ttk.Button(main_menu_frame, text="Leaderboard", 
+                                        style="Custom.TButton", 
+                                        command=leaderboard_function)        
         leaderboard_button.grid(row=3, pady=(0, 40))
-        self.root.grid_rowconfigure(0, weight=1)
-        self.root.grid_columnconfigure(0, weight=1)
+
         main_menu_frame.grid()
     
     def get_instructions_frame(self):
@@ -228,7 +234,7 @@ class App(Game):
         instructions_frame = tk.Frame(self.root)
         title_label = tk.Label(instructions_frame, text="Instructions", 
                                font=HEADING)
-        title_label.grid(row=0, pady=(0, 20))
+        title_label.grid(row=0, pady=(0, 20), sticky="NSEW")
         instructions_text = tk.Text(instructions_frame,
                                     font=("Arial", 12), width=40, 
                                     wrap="word")
