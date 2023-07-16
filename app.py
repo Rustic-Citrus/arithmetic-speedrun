@@ -173,6 +173,8 @@ class App(Game):
         self.root = root
         self.button_style = ttk.Style(self.root)
         self.button_style.configure("Custom.TButton", font=BODY)
+        self.treeview_style = ttk.Style(self.root)
+        self.treeview_style.configure("Custom.TTreeview", font=("Arial", 12))
         self.root.title("ArithmeticSpeedrun")
         self.root.geometry("400x600")
         self.root.resizable(False, False)
@@ -211,7 +213,8 @@ class App(Game):
                                   font=HEADING, justify="center")
         greeting_label.grid(row=0, pady=(0, 20), sticky="NSEW")
         start_button = ttk.Button(main_menu_frame, text="Start",
-                                  style="Custom.TButton", command=start_function)
+                                  style="Custom.TButton", 
+                                  command=start_function)
         start_button.grid(row=1, pady=(0, 20))
         instructions_button = ttk.Button(main_menu_frame, text="Instructions", 
                                          style="Custom.TButton", 
@@ -255,14 +258,16 @@ class App(Game):
         instructions_frame.grid()
 
     def get_leaderboard_frame(self):
+        """Displays the leaderboard_frame."""
         def main_menu_function():
+            """Removes the leaderboard_frame and displays the main_menu."""
             leaderboard_frame.grid_remove()
             self.get_main_menu_frame()
             self.media.play_sound("click_button")
 
         leaderboard = self.get_leaderboard()
-        leaderboard_frame = tk.Frame(self.root)
-        title_label = tk.Label(leaderboard_frame, text="Leaderboard", 
+        leaderboard_frame = ttk.Frame(self.root)
+        title_label = ttk.Label(leaderboard_frame, text="Leaderboard", 
                                font=HEADING)
         title_label.grid(row=0, pady=(20, 20))
         leaderboard_cols = leaderboard.columns.tolist()
@@ -275,13 +280,16 @@ class App(Game):
         for index, row in leaderboard[:10].iterrows():
             leaderboard_treeview.insert("", "end", values=list(row))
         leaderboard_treeview.grid(row=1, pady=(0, 20))
-        main_menu_button = tk.Button(leaderboard_frame, text="Main Menu", 
-                                     font=BODY, command=main_menu_function)
+        main_menu_button = ttk.Button(leaderboard_frame, text="Main Menu", 
+                                     style="Custom.TButton", 
+                                     command=main_menu_function)
         main_menu_button.grid(row=2, column=0, padx=(0, 20))
         leaderboard_frame.grid()
 
     def get_username_frame(self):
+        """Displays the username frame."""
         def next_function():
+            """Removes the username frame and displays the operation frame."""
             self.username = username_entry.get()
             username_frame.grid_remove()
             self.get_operation_frame()
@@ -289,24 +297,25 @@ class App(Game):
             self.media.play_sound("click_button")
 
         def back_function():
+            """Removes the username frame and displays the main menu frame."""
             username_frame.grid_remove()
             self.get_main_menu_frame()
             self.root.bind("<Return>", lambda event: None)
             self.media.play_sound("click_button")
         
         self.root.bind("<Return>", lambda event: next_function())
-        username_frame = tk.Frame(self.root)
-        prompt_label = tk.Label(username_frame, text="Choose your username:", 
+        username_frame = ttk.Frame(self.root)
+        prompt_label = ttk.Label(username_frame, text="Choose your username:", 
                                 font=HEADING)
         prompt_label.grid(row=0, pady=(0, 20))
-        username_entry = tk.Entry(username_frame, font=BODY)
+        username_entry = ttk.Entry(username_frame, font=BODY)
         username_entry.grid(row=1, pady=(0, 20))
-        buttons_frame = tk.Frame(username_frame)
-        back_button = tk.Button(buttons_frame, text="Back",
-                                font=BODY, command=back_function)
+        buttons_frame = ttk.Frame(username_frame)
+        back_button = ttk.Button(buttons_frame, text="Back",
+                                command=back_function, style="Custom.TButton")
         back_button.grid(row=0, column=0, padx=(0, 20))
-        next_button = tk.Button(buttons_frame, text="Next",
-                                font=BODY, command=next_function)
+        next_button = ttk.Button(buttons_frame, text="Next",
+                                command=next_function, style="Custom.TButton")
         next_button.grid(row=0, column=1, padx=(20, 0))
         buttons_frame.grid(row=2, pady=(40, 20))
         username_frame.grid()
