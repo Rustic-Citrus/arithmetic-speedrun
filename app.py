@@ -170,7 +170,7 @@ class App(Game):
         super().__init__(media)
         self.root = root
         self.BUTTON_STYLE = ttk.Style(self.root)
-        self.BUTTON_STYLE.configure("Custom.TButton", font=BODY)
+        self.BUTTON_STYLE.configure("TButton", font=BODY)
         # self.TREEVIEW_STYLE = ttk.Style(self.root)
         # self.TREEVIEW_STYLE.configure("Custom.TTreeview", font=("Arial", 12))
         self.LABEL_HEADING_STYLE = ttk.Style(self.root)
@@ -217,15 +217,15 @@ class App(Game):
                                   font=HEADING, justify="center")
         greeting_label.grid(row=0, pady=(0, 20), sticky="NSEW")
         start_button = ttk.Button(main_menu_frame, text="Start",
-                                  style="Custom.TButton", 
+                                  style="TButton", 
                                   command=start_function)
         start_button.grid(row=1, pady=(0, 20))
         instructions_button = ttk.Button(main_menu_frame, text="Instructions", 
-                                         style="Custom.TButton", 
+                                         style="TButton", 
                                          command=instructions_function)        
         instructions_button.grid(row=2, pady=(0, 20))
         leaderboard_button = ttk.Button(main_menu_frame, text="Leaderboard", 
-                                        style="Custom.TButton", 
+                                        style="TButton", 
                                         command=leaderboard_function)        
         leaderboard_button.grid(row=3, pady=(0, 40))
 
@@ -256,7 +256,7 @@ class App(Game):
         scrollbar.grid(row=1, column=1, sticky="nsew")
         instructions_text.config(yscrollcommand=scrollbar.set)
         main_menu_button = ttk.Button(instructions_frame, text="Main Menu", 
-                                     style="Custom.TButton", 
+                                     style="TButton", 
                                      command=main_menu_function)
         main_menu_button.grid(row=2, pady=(0, 20))
         instructions_frame.grid()
@@ -285,7 +285,7 @@ class App(Game):
             leaderboard_treeview.insert("", "end", values=list(row))
         leaderboard_treeview.grid(row=1, pady=(0, 20))
         main_menu_button = ttk.Button(leaderboard_frame, text="Main Menu", 
-                                     style="Custom.TButton", 
+                                     style="TButton", 
                                      command=main_menu_function)
         main_menu_button.grid(row=2, column=0, padx=(0, 20))
         leaderboard_frame.grid()
@@ -316,10 +316,10 @@ class App(Game):
         username_entry.grid(row=1, pady=(0, 20))
         buttons_frame = ttk.Frame(username_frame)
         back_button = ttk.Button(buttons_frame, text="Back",
-                                command=back_function, style="Custom.TButton")
+                                command=back_function, style="TButton")
         back_button.grid(row=0, column=0, padx=(0, 20))
         next_button = ttk.Button(buttons_frame, text="Next",
-                                command=next_function, style="Custom.TButton")
+                                command=next_function, style="TButton")
         next_button.grid(row=0, column=1, padx=(20, 0))
         buttons_frame.grid(row=2, pady=(40, 20))
         username_frame.grid()
@@ -346,27 +346,27 @@ class App(Game):
                                 style="Heading.TLabel")
         prompt_label.grid(row=0, pady=(0, 20))
         addition_button = ttk.Button(operation_frame, text="Addition", 
-                                     style="Custom.TButton",
+                                     style="TButton",
                                      command=lambda: next_function("Addition"))
         addition_button.grid(row=1, pady=(0, 20))
         subtraction_button = ttk.Button(operation_frame, 
                                        text="Subtraction", 
-                                       style="Custom.TButton",
+                                       style="TButton",
                                        command=lambda: next_function
                                        ("Subtraction"))
         subtraction_button.grid(row=2, pady=(0, 20))
         multiplication_button = ttk.Button(operation_frame,
                                           text="Multiplication", 
-                                          style="Custom.TButton",
+                                          style="TButton",
                                           command=lambda: next_function
                                           ("Multiplication"))
         multiplication_button.grid(row=3, pady=(0, 20))
         division_button = ttk.Button(operation_frame, text="Division", 
-                                    style="Custom.TButton", 
+                                    style="TButton", 
                                     command=lambda: next_function("Division"))
         division_button.grid(row=4, pady=(0, 20))
         back_button = ttk.Button(operation_frame, text="Back", 
-                                 style="Custom.TButton", command=back_function)
+                                 style="TButton", command=back_function)
         back_button.grid(row=5, pady=(40, 20))
         operation_frame.grid()
 
@@ -383,7 +383,11 @@ class App(Game):
             
         def next_function():
             """Removes the difficulty frame and displays the problems frame."""
-            self.difficulty = difficulty_scale.get()
+            difficulty = int(difficulty_scale.get())
+            if difficulty >= 1:
+                self.difficulty = difficulty
+            else:
+                self.difficulty = 1
             difficulty_frame.grid_remove()
             self.get_problems_frame()
             self.media.play_sound("click_button")
@@ -407,10 +411,10 @@ class App(Game):
         difficulty_scale.grid(row=2, pady=(0, 20))
         buttons_frame = ttk.Frame(difficulty_frame)
         back_button = ttk.Button(buttons_frame, text="Back", 
-                                 style="Custom.TButton", command=back_function)
+                                 style="TButton", command=back_function)
         back_button.grid(row=0, column=0, padx=(0, 20))
         next_button = ttk.Button(buttons_frame, text="Next",
-                                style="Custom.TButton", command=next_function)
+                                style="TButton", command=next_function)
         next_button.grid(row=0, column=1, padx=(20, 0))
         buttons_frame.grid(row=3, pady=(40, 20))
         difficulty_frame.grid()
@@ -425,7 +429,11 @@ class App(Game):
 
         def next_function():
             """Removes the problems frame and displays the start frame."""
-            self.problem_total = int(problem_scale.get())
+            problem_count = int(problem_scale.get())
+            if problem_count >= 5:
+                self.problem_total = problem_count
+            else:
+                self.problem_total = 5
             problems_frame.grid_remove()
             self.get_start_frame()
             self.media.play_sound("click_button")
@@ -451,45 +459,48 @@ class App(Game):
         problem_scale.grid(row=2, pady=(0, 20))
         buttons_frame = ttk.Frame(problems_frame)
         back_button = ttk.Button(buttons_frame, text="Back",
-                                 style="Custom.TButton", command=back_function)
+                                 style="TButton", command=back_function)
         back_button.grid(row=0, column=0, padx=(0, 20))
         next_button = ttk.Button(buttons_frame, text="Next", 
-                                 style="Custom.TButton", command=next_function)
+                                 style="TButton", command=next_function)
         next_button.grid(row=0, column=1, padx=(20, 0))
         buttons_frame.grid(row=3, pady=(40, 20))
         problems_frame.grid()
 
     def get_start_frame(self):
+        """Displays the start frame."""
         def confirm_function():
+            """Removes the start frame and displays the question frame."""
             start_frame.grid_remove()
             self.get_question_frame()
             self.media.play_sound("click_button")
 
         def back_function():
+            """Removes the start frame and displays the problems frame."""
             start_frame.grid_remove()
             self.get_problems_frame()
             self.media.play_sound("click_button")
 
-        start_frame = tk.Frame(self.root)
+        start_frame = ttk.Frame(self.root)
         self.root.bind("<Return>", lambda event: confirm_function())
         parameters_text = (f"Username: {self.username}\nOperation: "
                            f"{self.operation_name}\nDifficulty: "
                            f"{difficulty_dict[self.difficulty]}\nNumber "
                            f"of Problems: {self.problem_total}")
-        prompt = tk.Label(start_frame, 
+        prompt = ttk.Label(start_frame, 
                           text="Check the following parameters:", 
-                          font=HEADING)
+                          style="Heading.TLabel")
         prompt.grid(row=0, pady=(0, 20))
-        parameters_label = tk.Label(start_frame, text=parameters_text, 
-                              font=BODY)
+        parameters_label = ttk.Label(start_frame, text=parameters_text, 
+                                     style="TLabel")
         parameters_label.grid(row=1, pady=(0, 20))
-        button_frame = tk.Frame(start_frame)
+        button_frame = ttk.Frame(start_frame)
         button_frame.grid(row=2)
-        back_button = tk.Button(button_frame, text="Back", font=BODY, 
+        back_button = ttk.Button(button_frame, text="Back", style="TButton", 
                                 command=back_function)
         back_button.grid(row=0, column=0, padx=(0, 20), pady=(0, 40))
-        confirm_button = tk.Button(button_frame, text="Confirm", 
-                                   font=BODY, command=confirm_function)
+        confirm_button = ttk.Button(button_frame, text="Confirm", 
+                                   style="TButton", command=confirm_function)
         confirm_button.grid(row=0, column=1, padx=(20, 0), pady=(0, 40))
         start_frame.grid()
 
