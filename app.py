@@ -4,6 +4,7 @@ import time
 import operator
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -129,7 +130,6 @@ class Game:
                 f"{self.username},{datetime.now().isoformat()},{self.score},"
                 f"{self.difficulty},{self.operation_name},"
                 f"{self.elapsed_time}\n")
-        print("Score saved.")
 
     def get_leaderboard(self):
         """Reads, sorts and returns the leaderboard."""
@@ -296,11 +296,16 @@ class App(Game):
         """Displays the username frame."""
         def next_function():
             """Removes the username frame and displays the operation frame."""
-            self.username = username_entry.get()
-            username_frame.grid_remove()
-            self.get_operation_frame()
-            self.root.bind("<Return>", lambda event: None)
-            self.media.play_sound("click_button")
+            username = username_entry.get()
+            if username == "":
+                messagebox.showerror("Error", 
+                                     "Cannot proceed without username.")
+            else:
+                self.username = username_entry.get()
+                username_frame.grid_remove()
+                self.get_operation_frame()
+                self.root.bind("<Return>", lambda event: None)
+                self.media.play_sound("click_button")
 
         def back_function():
             """Removes the username frame and displays the main menu frame."""
@@ -580,14 +585,20 @@ class App(Game):
         answer_box.focus_set()
 
     def get_end_frame(self):
+        """Displays the end frame."""
         def save_function():
+            """Saves the player's score and changes the Save Score to the View 
+            Graph button."""
             self.save_score()
             save_button.config(text="View Graph", command=self.view_graph)
             results_label.config(text="Leaderboard updated.")
             update_leaderboard()
+            messagebox.showinfo("Information", 
+                                "Your score was successfully saved.")
             self.media.play_sound("click_button")
 
         def again_function():
+            """Resets important game attributes and displays username frame."""
             self.problem_counter = 0
             self.correct_answers = 0
             end_frame.grid_remove()
@@ -595,11 +606,13 @@ class App(Game):
             self.media.play_sound("click_button")
 
         def main_menu_function():
+            """Removes end frame and displays main menu frame."""
             end_frame.grid_remove()
             self.get_main_menu_frame()
             self.media.play_sound("click_button")
 
         def update_leaderboard():
+            """Updates the leaderboard display to include the player's score."""
             leaderboard = self.get_leaderboard()
             for row in leaderboard_view.get_children():
                 leaderboard_view.delete(row)
@@ -608,10 +621,10 @@ class App(Game):
         
         leaderboard = self.get_leaderboard()
         self.root.bind("<Return>", lambda event: None)
-        end_frame = tk.Frame(self.root)
-        buttons_frame = tk.Frame(end_frame)
-        feedback_label = tk.Label(end_frame, text=f"{self.get_results()}," 
-                                 f"{self.username}.", font=HEADING)
+        end_frame = ttk.Frame(self.root)
+        buttons_frame = ttk.Frame(end_frame)
+        feedback_label = ttk.Label(end_frame, text=f"{self.get_results()}," 
+                                 f"{self.username}.", style="Heading.TLabel")
         feedback_label.grid(row=0, pady=(0, 20))
         leaderboard_view = ttk.Treeview(end_frame, 
                                         columns=leaderboard.columns.tolist(), 
@@ -622,18 +635,19 @@ class App(Game):
         leaderboard_view.grid(row=1, pady=(0, 20))
         for index, row in leaderboard[:10].iterrows():
             leaderboard_view.insert("", "end", values=list(row))
-        results_label = tk.Label(end_frame, 
-                                 text=f"Your score was:\n{self.score}",
-                                 font=HEADING)
+        results_label = ttk.Label(end_frame, 
+                                  text=f"Your score was:\n{self.score}",
+                                  style="TLabel", justify="center")
         results_label.grid(row=2, pady=(0, 20))
-        save_button = tk.Button(buttons_frame, text="Save Score", font=BODY,
-                                     command=save_function)
+        save_button = ttk.Button(buttons_frame, text="Save Score", 
+                                 style="TButton", command=save_function)
         save_button.grid(row=0, column=0, padx=(0, 20))
-        again_button = tk.Button(buttons_frame, text="Play Again", font=BODY, 
-                                 command=again_function)
+        again_button = ttk.Button(buttons_frame, text="Play Again", 
+                                  style="TButton", command=again_function)
         again_button.grid(row=0, column=1, padx=(20, 20))
-        main_menu_button = tk.Button(end_frame, text="Main Menu", 
-                                     font=BODY, command=main_menu_function)
+        main_menu_button = ttk.Button(end_frame, text="Main Menu",
+                                      style="TButton",
+                                      command=main_menu_function)
         buttons_frame.grid(row=3, pady=(0, 20))
         main_menu_button.grid(row=4, column=0, pady=(0, 20))
         end_frame.grid()
