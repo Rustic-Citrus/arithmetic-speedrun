@@ -633,7 +633,7 @@ class App(Game):
         feedback_label.grid(row=0, pady=(0, 20))
         results_label = ttk.Label(end_frame, 
                                   text=f"Your score was:\n{self.score}",
-                                  style="TLabel")
+                                  style="TLabel", justify="center")
         results_label.grid(row=1, pady=(0, 20))
         leaderboard_view = ttk.Treeview(end_frame, 
                                         columns=leaderboard.columns.tolist(), 
