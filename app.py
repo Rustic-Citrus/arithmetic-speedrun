@@ -99,7 +99,7 @@ class Game:
                 case 6:
                     x, y = [random.randint(100, 999) 
                             for n in range(2)]
-            solution = self.operation(x, y)
+            solution = round(self.operation(x, y), 2)
             equation = f"{x} {self.operator} {y} = x"
             reverse_equation = f"{y} {self.operator} {x} = x"
             if ((equation not in self.equations_seen) and 
@@ -179,6 +179,8 @@ class App(Game):
         self.LABEL_BODY_STYLE.configure("TLabel", font=BODY)
         self.SCALE_STYLE = ttk.Style(self.root)
         self.SCALE_STYLE.configure("TScale", length=200, sliderlength=20)
+        self.ENTRY_STYLE = ttk.Style(self.root)
+        self.ENTRY_STYLE.configure("TEntry", font=BODY)
         self.root.title("ArithmeticSpeedrun")
         self.root.geometry("400x600")
         self.root.resizable(False, False)
@@ -505,7 +507,12 @@ class App(Game):
         start_frame.grid()
 
     def get_question_frame(self):
+        """Displays the question frame."""
         def submit_function(solution):
+            """Generates a problem and returns it to the equation_label, and 
+            checks the users answer. If the user has answered all the 
+            questions, the question frame is removed and the end frame is 
+            displayed."""
             self.problem_counter += 1
             if self.problem_counter > self.problem_total:
                 question_frame.grid_remove()
@@ -517,10 +524,10 @@ class App(Game):
                                    self.elapsed_time) * 100)
                 self.get_end_frame()
             else:
-                correct_response = self.check_answer(int(answer_box.get()), 
+                correct_response = self.check_answer(float(answer_box.get()), 
                                                     self.solution)
                 question_num_label.config(
-                    text=f"Q{self.problem_counter}.\nSolve the equation" 
+                    text=f"Q{self.problem_counter+1}.\nSolve the equation" 
                     " below:")
                 self.equation, self.solution = self.generate_question()
                 if correct_response:
@@ -535,34 +542,38 @@ class App(Game):
                 equation_label.config(text=self.equation)
 
         def update_timer():
+            """Updates the timer to show the elapsed time in seconds."""
             elapsed_seconds = round(time.time() - self.start_time, 1)
             elapsed_time.set(f"Elapsed Time: {elapsed_seconds}")
             self.root.after(100, update_timer)
 
         self.start_time = time.time()
-        question_frame = tk.Frame(self.root)
+        question_frame = ttk.Frame(self.root)
         elapsed_time = tk.StringVar(self.root, "0.0")
         self.equation, self.solution = self.generate_question()
         self.root.bind("<Return>", lambda event: 
                        submit_function(self.solution))
-        timer_label = tk.Label(question_frame, 
-                               textvariable=elapsed_time, font=BODY)
+        timer_label = ttk.Label(question_frame, 
+                               textvariable=elapsed_time, 
+                               style="Heading.TLabel")
         timer_label.grid(row=0, pady=(0, 2))
-        question_num_label = tk.Label(question_frame, 
+        question_num_label = ttk.Label(question_frame, 
                                       text=f"Q{self.problem_counter+1}.\nSolve"
-                                      " the equation below:", 
-                                      font=HEADING)
+                                      " the equation below:", justify="center",
+                                      style="Heading.TLabel")
         question_num_label.grid(row=1, pady=(0, 20))
-        equation_label = tk.Label(question_frame, text=self.equation, 
-                                  font=HEADING)
+        equation_label = ttk.Label(question_frame, text=self.equation, 
+                                  style="Heading.TLabel")
         equation_label.grid(row=2, pady=(0, 20))
-        answer_box = tk.Entry(question_frame, font=BODY)
+        answer_box = ttk.Entry(question_frame, style="TEntry")
         answer_box.grid(row=3, pady=(0, 20))
-        feedback_label = tk.Label(question_frame, text="", font=HEADING)
+        feedback_label = ttk.Label(question_frame, text="", 
+                                   style="Heading.TLabel")
         feedback_label.grid(row=4, pady=(0, 20))
-        submit_button = tk.Button(question_frame, text="Submit", font=BODY, 
-                                  command=lambda: 
-                                  submit_function(self.solution))
+        submit_button = ttk.Button(question_frame, text="Submit", 
+                                   style="TButton",
+                                   command=lambda:
+                                   submit_function(self.solution))
         submit_button.grid(row=5, pady=(40, 40))
         question_frame.grid()
         update_timer()
