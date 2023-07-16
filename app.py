@@ -525,7 +525,7 @@ class App(Game):
             questions, the question frame is removed and the end frame is 
             displayed."""
             self.problem_counter += 1
-            if self.problem_counter > self.problem_total:
+            if self.problem_counter >= self.problem_total:
                 question_frame.grid_remove()
                 self.elapsed_time = round(time.time() - self.start_time, 3)
                 self.correct_ratio = (self.correct_answers / 
