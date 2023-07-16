@@ -225,27 +225,32 @@ class App(Game):
         main_menu_frame.grid()
     
     def get_instructions_frame(self):
+        """Displays the instructions_frame."""
         def main_menu_function():
+            """Removes the instructions frame and triggers the main_menu 
+            frame."""
             instructions_frame.grid_remove()
             self.get_main_menu_frame()
             self.media.play_sound("click_button")
 
         instructions = self.get_instructions()
-        instructions_frame = tk.Frame(self.root)
-        title_label = tk.Label(instructions_frame, text="Instructions", 
+        instructions_frame = ttk.Frame(self.root)
+        title_label = ttk.Label(instructions_frame, text="Instructions", 
                                font=HEADING)
-        title_label.grid(row=0, pady=(0, 20), sticky="NSEW")
+        title_label.grid(row=0, pady=(0, 20))
         instructions_text = tk.Text(instructions_frame,
                                     font=("Arial", 12), width=40, 
                                     wrap="word")
         instructions_text.insert(tk.END, instructions)
         instructions_text.config(state="disabled")
         instructions_text.grid(row=1, column=0, pady=(0, 20))
-        scrollbar = tk.Scrollbar(instructions_frame, 
+        scrollbar = ttk.Scrollbar(instructions_frame, 
                                  command=instructions_text.yview)
         scrollbar.grid(row=1, column=1, sticky="nsew")
-        main_menu_button = tk.Button(instructions_frame, text="Main Menu", 
-                                     font=BODY, command=main_menu_function)
+        instructions_text.config(yscrollcommand=scrollbar.set)
+        main_menu_button = ttk.Button(instructions_frame, text="Main Menu", 
+                                     style="Custom.TButton", 
+                                     command=main_menu_function)
         main_menu_button.grid(row=2, pady=(0, 20))
         instructions_frame.grid()
 
