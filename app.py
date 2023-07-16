@@ -530,9 +530,9 @@ class App(Game):
                 self.elapsed_time = round(time.time() - self.start_time, 3)
                 self.correct_ratio = (self.correct_answers / 
                                       self.problem_total)
-                self.score = int(((self.difficulty * self.correct_ratio * 
-                                   self.problem_total * 10) / 
-                                   self.elapsed_time) * 100)
+                self.score = int(((self.problem_total ** 
+                                   (self.difficulty + 1)) / self.elapsed_time) 
+                                   * (self.correct_ratio * 100))
                 self.get_end_frame()
             else:
                 correct_response = self.check_answer(float(answer_box.get()), 
