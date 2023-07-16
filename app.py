@@ -336,6 +336,10 @@ class App(Game):
         """Displays the operation frame."""
         def next_function(operation):
             """Removes the operation frame and displays the difficulty frame."""
+            if operation == "Division":
+                messagebox.showinfo("Information", 
+                                    "All solutions are calculated to 2 decimal "
+                                    "places.")
             self.set_operation(operation)
             operation_frame.grid_remove()
             self.get_difficulty_frame()
