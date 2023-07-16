@@ -177,6 +177,8 @@ class App(Game):
         self.treeview_style.configure("Custom.TTreeview", font=("Arial", 12))
         self.label_heading_style = ttk.Style(self.root)
         self.label_heading_style.configure("Heading.TLabel", font=HEADING)
+        self.slider_style = ttk.Style(self.root)
+        self.slider_style.configure("Custom.TSlider", width=20, relief=tk.FLAT)
         self.root.title("ArithmeticSpeedrun")
         self.root.geometry("400x600")
         self.root.resizable(False, False)
@@ -369,39 +371,43 @@ class App(Game):
         operation_frame.grid()
 
     def get_difficulty_frame(self):
+        """Display the difficulty frame."""
         def update_difficulty_label(value):
+            """Updates the difficulty label to show the initial slider value."""
             difficulty_label.config(
                 text=difficulty_dict[int(value)])
 
         def next_function():
+            """Removes the difficulty frame and displays the problems frame."""
             self.difficulty = difficulty_slider.get()
             difficulty_frame.grid_remove()
             self.get_problems_frame()
             self.media.play_sound("click_button")
 
         def back_function():
+            """Removes the difficulty frame and displays the operation frame."""
             difficulty_frame.grid_remove()
             self.get_operation_frame()
             self.media.play_sound("click_button")
 
-        difficulty_frame = tk.Frame(self.root)
-        prompt_label = tk.Label(difficulty_frame, text="Choose a difficulty:",
-                                font=HEADING)
+        difficulty_frame = ttk.Frame(self.root)
+        prompt_label = ttk.Label(difficulty_frame, text="Choose a difficulty:",
+                                 style="Heading.TLabel")
         prompt_label.grid(row=0, pady=(0, 20))
-        difficulty_label = tk.Label(difficulty_frame, text="", 
-                                    font=HEADING)
+        difficulty_label = ttk.Label(difficulty_frame, text="", 
+                                    style="Heading.TLabel")
         difficulty_label.grid(row=1, pady=(0, 20))
-        difficulty_slider = tk.Scale(difficulty_frame, from_=1, to=6, 
+        difficulty_slider = ttk.Scale(difficulty_frame, from_=1, to=6, 
                                      orient="horizontal", length=200, 
                                      command=update_difficulty_label, 
-                                     width=20, relief=tk.FLAT)
+                                     style="Custom.TSlider")
         difficulty_slider.grid(row=2, pady=(0, 20))
-        buttons_frame = tk.Frame(difficulty_frame)
-        back_button = tk.Button(buttons_frame, text="Back",
-                                font=BODY, command=back_function)
+        buttons_frame = ttk.Frame(difficulty_frame)
+        back_button = ttk.Button(buttons_frame, text="Back", 
+                                 style="Custom.TButton", command=back_function)
         back_button.grid(row=0, column=0, padx=(0, 20))
-        next_button = tk.Button(buttons_frame, text="Next",
-                                font=BODY, command=next_function)
+        next_button = ttk.Button(buttons_frame, text="Next",
+                                style="Custom.TButton", command=next_function)
         next_button.grid(row=0, column=1, padx=(20, 0))
         buttons_frame.grid(row=3, pady=(40, 20))
         difficulty_frame.grid()
