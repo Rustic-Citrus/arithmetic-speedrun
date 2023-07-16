@@ -10,8 +10,6 @@ import matplotlib.pyplot as plt
 HEADING = ("MS Gothic", 18)
 BODY = ("MS Gothic", 14)
 
-
-
 difficulty_dict = {1: "Easy", 2: "Basic", 3: "Medium", 4: "Moderate",
                    5: "Challenging", 6: "Hard"}
 operation_dict = {"Addition": operator.add, "Subtraction": operator.sub, 
@@ -171,14 +169,16 @@ class App(Game):
         """Creates an instance of an App class."""
         super().__init__(media)
         self.root = root
-        self.button_style = ttk.Style(self.root)
-        self.button_style.configure("Custom.TButton", font=BODY)
-        self.treeview_style = ttk.Style(self.root)
-        self.treeview_style.configure("Custom.TTreeview", font=("Arial", 12))
-        self.label_heading_style = ttk.Style(self.root)
-        self.label_heading_style.configure("Heading.TLabel", font=HEADING)
-        self.slider_style = ttk.Style(self.root)
-        self.slider_style.configure("Custom.TSlider", width=20, relief=tk.FLAT)
+        self.BUTTON_STYLE = ttk.Style(self.root)
+        self.BUTTON_STYLE.configure("Custom.TButton", font=BODY)
+        # self.TREEVIEW_STYLE = ttk.Style(self.root)
+        # self.TREEVIEW_STYLE.configure("Custom.TTreeview", font=("Arial", 12))
+        self.LABEL_HEADING_STYLE = ttk.Style(self.root)
+        self.LABEL_HEADING_STYLE.configure("Heading.TLabel", font=HEADING)
+        self.LABEL_BODY_STYLE = ttk.Style(self.root)
+        self.LABEL_BODY_STYLE.configure("TLabel", font=BODY)
+        self.SCALE_STYLE = ttk.Style(self.root)
+        self.SCALE_STYLE.configure("TScale", length=200, sliderlength=20)
         self.root.title("ArithmeticSpeedrun")
         self.root.geometry("400x600")
         self.root.resizable(False, False)
@@ -374,12 +374,16 @@ class App(Game):
         """Display the difficulty frame."""
         def update_difficulty_label(value):
             """Updates the difficulty label to show the initial slider value."""
-            difficulty_label.config(
-                text=difficulty_dict[int(value)])
-
+            try:
+                key = int(float(value))
+                difficulty_label.config(text=difficulty_dict[key])
+            except KeyError:
+                key = 1
+                difficulty_label.config(text=difficulty_dict[key])
+            
         def next_function():
             """Removes the difficulty frame and displays the problems frame."""
-            self.difficulty = difficulty_slider.get()
+            self.difficulty = difficulty_scale.get()
             difficulty_frame.grid_remove()
             self.get_problems_frame()
             self.media.play_sound("click_button")
@@ -397,11 +401,10 @@ class App(Game):
         difficulty_label = ttk.Label(difficulty_frame, text="", 
                                     style="Heading.TLabel")
         difficulty_label.grid(row=1, pady=(0, 20))
-        difficulty_slider = ttk.Scale(difficulty_frame, from_=1, to=6, 
-                                     orient="horizontal", length=200, 
+        difficulty_scale = ttk.Scale(difficulty_frame, from_=1, to=6,
                                      command=update_difficulty_label, 
-                                     style="Custom.TSlider")
-        difficulty_slider.grid(row=2, pady=(0, 20))
+                                     style="TScale", orient="horizontal")
+        difficulty_scale.grid(row=2, pady=(0, 20))
         buttons_frame = ttk.Frame(difficulty_frame)
         back_button = ttk.Button(buttons_frame, text="Back", 
                                  style="Custom.TButton", command=back_function)
@@ -411,37 +414,49 @@ class App(Game):
         next_button.grid(row=0, column=1, padx=(20, 0))
         buttons_frame.grid(row=3, pady=(40, 20))
         difficulty_frame.grid()
-        update_difficulty_label(difficulty_slider.get())
+        update_difficulty_label(difficulty_scale.get())
 
     def get_problems_frame(self):
+        """Displays the problems frame."""
+        def update_problem_scale_label(value):
+            """Displays the number of problems from the scale widget."""
+            problem_count = int(float(value))
+            problem_scale_label.config(text=problem_count)
+
         def next_function():
-            self.problem_total = int(problems_slider.get())
+            """Removes the problems frame and displays the start frame."""
+            self.problem_total = int(problem_scale.get())
             problems_frame.grid_remove()
             self.get_start_frame()
             self.media.play_sound("click_button")
 
         def back_function():
+            """Removes the problems frame and displays the difficulty frame."""
             problems_frame.grid_remove()
             self.get_difficulty_frame()
             self.media.play_sound("click_button")
 
-        problems_frame = tk.Frame(self.root)
+        problems_frame = ttk.Frame(self.root)
         self.root.bind("<Return>", lambda event: next_function())
-        prompt_label = tk.Label(problems_frame, 
-                          text="Choose the number of problems:",
-                          font=HEADING)
+        prompt_label = ttk.Label(problems_frame,
+                                 text="Choose the number of problems:",
+                                 style="Heading.TLabel")
         prompt_label.grid(row=0, pady=(0, 20))
-        problems_slider = tk.Scale(problems_frame, from_=5, to=50,
-                                   orient="horizontal", length=200)
-        problems_slider.grid(row=1, pady=(0, 20))
-        buttons_frame = tk.Frame(problems_frame)
-        back_button = tk.Button(buttons_frame, text="Back", 
-                                font=BODY, command=back_function)
+        problem_scale_label = ttk.Label(problems_frame, text="5", 
+                                        style="TLabel")
+        problem_scale_label.grid(row=1, pady=(0, 20))
+        problem_scale = ttk.Scale(problems_frame, from_=5, to=50,
+                                  command=update_problem_scale_label,
+                                  style="TScale")
+        problem_scale.grid(row=2, pady=(0, 20))
+        buttons_frame = ttk.Frame(problems_frame)
+        back_button = ttk.Button(buttons_frame, text="Back",
+                                 style="Custom.TButton", command=back_function)
         back_button.grid(row=0, column=0, padx=(0, 20))
-        next_button = tk.Button(buttons_frame, text="Next", 
-                                font=BODY, command=next_function)
+        next_button = ttk.Button(buttons_frame, text="Next", 
+                                 style="Custom.TButton", command=next_function)
         next_button.grid(row=0, column=1, padx=(20, 0))
-        buttons_frame.grid(row=2, pady=(40, 20))
+        buttons_frame.grid(row=3, pady=(40, 20))
         problems_frame.grid()
 
     def get_start_frame(self):
