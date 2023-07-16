@@ -536,7 +536,7 @@ class App(Game):
                 correct_response = self.check_answer(float(answer_box.get()), 
                                                     self.solution)
                 question_num_label.config(
-                    text=f"Q{self.problem_counter+1}.\nSolve the equation" 
+                    text=f"Q{self.problem_counter+1}.\nSolve the equation"
                     " below:")
                 self.equation, self.solution = self.generate_question()
                 if correct_response:
@@ -545,7 +545,7 @@ class App(Game):
                     self.correct_answers += 1
                 else:
                     feedback_label.config(text="Incorrect.\nThe answer was "
-                                        f"{solution}")
+                                          f"{solution}")
                     self.media.play_sound("incorrect_answer")
                 answer_box.delete(0, tk.END)
                 equation_label.config(text=self.equation)
@@ -560,19 +560,19 @@ class App(Game):
         question_frame = ttk.Frame(self.root)
         elapsed_time = tk.StringVar(self.root, "0.0")
         self.equation, self.solution = self.generate_question()
-        self.root.bind("<Return>", lambda event: 
+        self.root.bind("<Return>", lambda event:
                        submit_function(self.solution))
-        timer_label = ttk.Label(question_frame, 
-                               textvariable=elapsed_time, 
-                               style="Heading.TLabel")
+        timer_label = ttk.Label(question_frame,
+                                textvariable=elapsed_time,
+                                style="Heading.TLabel")
         timer_label.grid(row=0, pady=(0, 2))
-        question_num_label = ttk.Label(question_frame, 
-                                      text=f"Q{self.problem_counter+1}.\nSolve"
-                                      " the equation below:", justify="center",
-                                      style="Heading.TLabel")
+        question_num_label = ttk.Label(question_frame,
+                                       text=f"Q{self.problem_counter+1}.\nSolve"
+                                       " the equation below:", justify="center",
+                                       style="Heading.TLabel")
         question_num_label.grid(row=1, pady=(0, 20))
-        equation_label = ttk.Label(question_frame, text=self.equation, 
-                                  style="Heading.TLabel")
+        equation_label = ttk.Label(question_frame, text=self.equation,
+                                   style="Heading.TLabel")
         equation_label.grid(row=2, pady=(0, 20))
         answer_box = ttk.Entry(question_frame, style="TEntry")
         answer_box.grid(row=3, pady=(0, 20))
@@ -627,8 +627,8 @@ class App(Game):
         self.root.bind("<Return>", lambda event: None)
         end_frame = ttk.Frame(self.root)
         buttons_frame = ttk.Frame(end_frame)
-        feedback_label = ttk.Label(end_frame, text=f"{self.get_results()}," 
-                                 f"{self.username}.", style="Heading.TLabel")
+        feedback_label = ttk.Label(end_frame, text=f"{self.get_results()},"
+                                   f"{self.username}.", style="Heading.TLabel")
         feedback_label.grid(row=0, pady=(0, 20))
         results_label = ttk.Label(end_frame, 
                                   text=f"Your score was:\n{self.score}",
