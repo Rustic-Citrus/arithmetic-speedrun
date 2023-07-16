@@ -1,15 +1,2 @@
 Username,Timestamp,Score,Difficulty,Operation,Elapsed Time
-Harry,2023-07-14T17:38:09.368245,602,1,Addition,8.293
-Harry,2023-07-14T17:43:18.669611,387,1,Multiplication,12.903
-Harry,2023-07-14T17:45:02.033066,378,1,Multiplication,10.56
-Harry,2023-07-14T17:47:41.417926,522,1,Multiplication,9.563
-Harry,2023-07-14T17:54:06.878616,635,1,Multiplication,7.869
-Harry,2023-07-14T21:12:54.947777,247,1,Addition,16.177
-Harry,2023-07-15T12:00:07.532765,464,1,Multiplication,10.77
-Harry,2023-07-15T12:01:55.731544,523,1,Multiplication,9.55
-Harry,2023-07-15T17:41:32.026401,517,1,Multiplication,9.662
-Harry,2023-07-15T18:03:14.697654,586,1,Multiplication,8.532
-Harry,2023-07-15T18:20:08.057060,446,1,Multiplication,11.206
-Harry,2023-07-15T18:26:28.094698,149,2,Multiplication,67.08
-Harry,2023-07-15T18:51:24.705108,638,1,Multiplication,7.83
-Harry,2023-07-15T18:53:01.497183,186,2,Multiplication,53.686
+
