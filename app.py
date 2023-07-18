@@ -639,8 +639,8 @@ class App(Game):
         self.root.bind("<Return>", lambda event: None)
         end_frame = ttk.Frame(self.root)
         buttons_frame = ttk.Frame(end_frame)
-        feedback_label = ttk.Label(end_frame, text=f"{self.get_results()},"
-                                   f"{self.username}.", style="Heading.TLabel")
+        feedback_label = ttk.Label(end_frame, text=f"{self.get_results()}, "
+                                   f"{self.username}!", style="Heading.TLabel")
         feedback_label.grid(row=0, pady=(0, 20))
         results_label = ttk.Label(end_frame, 
                                   text=f"Your score was:\n{self.score}",
@@ -664,9 +664,8 @@ class App(Game):
         main_menu_button = ttk.Button(end_frame, text="Main Menu",
                                       style="TButton",
                                       command=main_menu_function)
-        buttons_frame.grid(row=3, pady=(0, 20), sticky="NSEW")
+        buttons_frame.grid(row=3, pady=(0, 20))
         buttons_frame.grid_rowconfigure(0, weight=1)
         buttons_frame.grid_columnconfigure(0, weight=1)
-        buttons_frame.grid_columnconfigure(1, weight=1)
         main_menu_button.grid(row=4, column=0, pady=(0, 20), sticky="NSEW")
         end_frame.grid()
