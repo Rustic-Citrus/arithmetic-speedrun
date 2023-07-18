@@ -8,8 +8,8 @@ from tkinter import messagebox
 import pandas as pd
 import matplotlib.pyplot as plt
 
-HEADING = ("MS Gothic", 18)
-BODY = ("MS Gothic", 14)
+HEADING = ("OCR A Extended", 16)
+BODY = ("Lucida Console", 12)
 
 difficulty_dict = {1: "Easy", 2: "Basic", 3: "Medium", 4: "Moderate",
                    5: "Challenging", 6: "Hard"}
@@ -105,13 +105,18 @@ class Game:
             reverse_equation = f"{y} {self.operator} {x} = x"
             if ((equation not in self.equations_seen) and 
                 (reverse_equation not in self.equations_seen)):
-                equation_is_new = True
-                self.equations_seen.append(equation)
-                self.equations_seen.append(reverse_equation)
-                equation_tuple = (equation, solution)
+                if ((self.operation_name == "Division") and (x % y != 0) and 
+                (self.difficulty < 3)):
+                    continue
+                else:
+                    equation_is_new = True
+                    self.equations_seen.append(equation)
+                    self.equations_seen.append(reverse_equation)
+                    equation_tuple = (equation, solution)
             else:
                 continue
         return equation_tuple
+
 
     def check_answer(self, response, solution):
         try:
@@ -219,18 +224,23 @@ class App(Game):
                                    text="Welcome\nto\nArithmetic Speedrun!",
                                    font=HEADING, justify="center")
         greeting_label.grid(row=0, pady=(0, 20))
+        authorship_label = ttk.Label(main_menu_frame, 
+                                     text="A game\nby\nRustic-Citrus\n"
+                                     "(Harry Curtis)", style="TLabel", 
+                                     justify="center")
+        authorship_label.grid(row=1, pady=(0, 20))
         start_button = ttk.Button(main_menu_frame, text="Start",
                                   style="TButton", 
                                   command=start_function)
-        start_button.grid(row=1, pady=(0, 20), sticky="NSEW")
+        start_button.grid(row=2, pady=(0, 20), sticky="NSEW")
         instructions_button = ttk.Button(main_menu_frame, text="Instructions", 
                                          style="TButton", 
                                          command=instructions_function)        
-        instructions_button.grid(row=2, pady=(0, 20), sticky="NSEW")
+        instructions_button.grid(row=3, pady=(0, 20), sticky="NSEW")
         leaderboard_button = ttk.Button(main_menu_frame, text="Leaderboard", 
                                         style="TButton", 
                                         command=leaderboard_function)        
-        leaderboard_button.grid(row=3, pady=(0, 40), sticky="NSEW")
+        leaderboard_button.grid(row=4, pady=(0, 40), sticky="NSEW")
 
         main_menu_frame.grid()
     
@@ -249,14 +259,14 @@ class App(Game):
                                 style="Heading.TLabel")
         title_label.grid(row=0, pady=(0, 20))
         instructions_text = tk.Text(instructions_frame,
-                                    font=("Arial", 12), width=40, 
+                                    font=("OCR A Extended", 10), width=40, 
                                     wrap="word")
         instructions_text.insert(tk.END, instructions)
         instructions_text.config(state="disabled")
         instructions_text.grid(row=1, column=0, pady=(0, 20))
         scrollbar = ttk.Scrollbar(instructions_frame, 
                                  command=instructions_text.yview)
-        scrollbar.grid(row=1, column=1)
+        scrollbar.grid(row=1, column=1, sticky="NSEW")
         instructions_text.config(yscrollcommand=scrollbar.set)
         main_menu_button = ttk.Button(instructions_frame, text="Main Menu", 
                                      style="TButton", 
@@ -459,8 +469,8 @@ class App(Game):
         problems_frame = ttk.Frame(self.root)
         self.root.bind("<Return>", lambda event: next_function())
         prompt_label = ttk.Label(problems_frame,
-                                 text="Choose the number of problems:",
-                                 style="Heading.TLabel")
+                                 text="Choose the\nnumber of problems:",
+                                 style="Heading.TLabel", justify="center")
         prompt_label.grid(row=0, pady=(0, 20))
         problem_scale_label = ttk.Label(problems_frame, text="5", 
                                         style="TLabel", justify="center")
@@ -500,11 +510,11 @@ class App(Game):
                            f"{difficulty_dict[self.difficulty]}\nNumber "
                            f"of Problems: {self.problem_total}")
         prompt = ttk.Label(start_frame, 
-                          text="Check the following parameters:", 
-                          style="Heading.TLabel")
+                          text="Check the following\nparameters:", 
+                          style="Heading.TLabel", justify="center")
         prompt.grid(row=0, pady=(0, 20))
         parameters_label = ttk.Label(start_frame, text=parameters_text, 
-                                     style="TLabel")
+                                     style="TLabel", justify="center")
         parameters_label.grid(row=1, pady=(0, 20))
         button_frame = ttk.Frame(start_frame)
         back_button = ttk.Button(button_frame, text="Back", style="TButton", 
