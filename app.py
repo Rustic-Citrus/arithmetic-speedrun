@@ -177,12 +177,13 @@ class App(Game):
         self.root = root
         self.BUTTON_STYLE = ttk.Style(self.root)
         self.BUTTON_STYLE.configure("TButton", font=BODY)
-        # self.TREEVIEW_STYLE = ttk.Style(self.root)
-        # self.TREEVIEW_STYLE.configure("Custom.TTreeview", font=("Arial", 12))
         self.LABEL_HEADING_STYLE = ttk.Style(self.root)
         self.LABEL_HEADING_STYLE.configure("Heading.TLabel", font=HEADING)
         self.LABEL_BODY_STYLE = ttk.Style(self.root)
         self.LABEL_BODY_STYLE.configure("TLabel", font=BODY)
+        self.LABEL_SMALL_STYLE = ttk.Style(self.root)
+        self.LABEL_SMALL_STYLE.configure("Small.TLabel", 
+                                         font=("Lucida Console", 10))
         self.SCALE_STYLE = ttk.Style(self.root)
         self.SCALE_STYLE.configure("TScale", length=200, sliderlength=20)
         self.ENTRY_STYLE = ttk.Style(self.root)
@@ -224,23 +225,23 @@ class App(Game):
                                    text="Welcome\nto\nArithmetic Speedrun!",
                                    font=HEADING, justify="center")
         greeting_label.grid(row=0, pady=(0, 20))
-        authorship_label = ttk.Label(main_menu_frame, 
-                                     text="A game\nby\nRustic-Citrus\n"
-                                     "(Harry Curtis)", style="TLabel", 
-                                     justify="center")
-        authorship_label.grid(row=1, pady=(0, 20))
         start_button = ttk.Button(main_menu_frame, text="Start",
                                   style="TButton", 
                                   command=start_function)
-        start_button.grid(row=2, pady=(0, 20), sticky="NSEW")
+        start_button.grid(row=1, pady=(0, 20), sticky="NSEW")
         instructions_button = ttk.Button(main_menu_frame, text="Instructions", 
                                          style="TButton", 
                                          command=instructions_function)        
-        instructions_button.grid(row=3, pady=(0, 20), sticky="NSEW")
+        instructions_button.grid(row=2, pady=(0, 20), sticky="NSEW")
         leaderboard_button = ttk.Button(main_menu_frame, text="Leaderboard", 
                                         style="TButton", 
                                         command=leaderboard_function)        
-        leaderboard_button.grid(row=4, pady=(0, 40), sticky="NSEW")
+        leaderboard_button.grid(row=3, pady=(0, 40), sticky="NSEW")
+        authorship_label = ttk.Label(main_menu_frame, 
+                                text="A game by Rustic-Citrus "
+                                "(Harry Curtis)", style="Small.TLabel", 
+                                justify="center")
+        authorship_label.grid(row=4, pady=(60, 20))
 
         main_menu_frame.grid()
     
