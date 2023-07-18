@@ -1,4 +1,10 @@
 # Changelog
+## [0.3.2] - 2023-07-17
+### Changed
+- Changed the text in several of the prompts so that it is split across multiple lines.
+- Changed the fonts from "MS Gothic" to "OCR A Extended" and "Lucida Console".
+- Fixed division so that Easy and Basic problems no longer show equations where the solution is not an integer.
+
 ## [0.3.1] - 2023-07-16
 ### Added
 - Added an error message box that informs the user their username cannot be empty.
