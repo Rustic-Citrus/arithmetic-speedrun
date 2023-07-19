@@ -336,11 +336,14 @@ class App(Game):
         buttons_frame = ttk.Frame(username_frame)
         back_button = ttk.Button(buttons_frame, text="Back",
                                 command=back_function, style="TButton")
-        back_button.grid(row=0, column=0, padx=(0, 20), sticky="NSEW")
+        back_button.grid(row=0, column=0, sticky="SE")
         next_button = ttk.Button(buttons_frame, text="Next",
                                 command=next_function, style="TButton")
-        next_button.grid(row=0, column=1, padx=(20, 0), sticky="NSEW")
-        buttons_frame.grid(row=2, pady=(40, 20))
+        next_button.grid(row=0, column=1, sticky="SE")
+        buttons_frame.grid_rowconfigure(0, weight=1)
+        buttons_frame.grid_columnconfigure(0, weight=1)
+        buttons_frame.grid_columnconfigure(1, weight=1)
+        buttons_frame.grid(row=2, pady=(40, 20), sticky="NSEW")
         username_frame.grid()
         username_entry.focus_set()
         
@@ -435,11 +438,11 @@ class App(Game):
         buttons_frame = ttk.Frame(difficulty_frame)
         back_button = ttk.Button(buttons_frame, text="Back", 
                                  style="TButton", command=back_function)
-        back_button.grid(row=0, column=0, padx=(0, 20), sticky="NSEW")
+        back_button.grid(row=0, column=0, sticky="SE")
         next_button = ttk.Button(buttons_frame, text="Next",
                                  style="TButton", command=next_function)
-        next_button.grid(row=0, column=1, padx=(20, 0), sticky="NSEW")
-        buttons_frame.grid(row=3, pady=(40, 20))
+        next_button.grid(row=0, column=1, sticky="SE")
+        buttons_frame.grid(row=3, pady=(40, 20), sticky="NSEW")
         difficulty_frame.grid()
         update_difficulty_label(difficulty_scale.get())
 
@@ -483,10 +486,10 @@ class App(Game):
         buttons_frame = ttk.Frame(problems_frame)
         back_button = ttk.Button(buttons_frame, text="Back",
                                  style="TButton", command=back_function)
-        back_button.grid(row=0, column=0, padx=(0, 20), sticky="NSEW")
+        back_button.grid(row=0, column=0, sticky="NSEW")
         next_button = ttk.Button(buttons_frame, text="Next", 
                                  style="TButton", command=next_function)
-        next_button.grid(row=0, column=1, padx=(20, 0), sticky="NSEW")
+        next_button.grid(row=0, column=1, sticky="NSEW")
         buttons_frame.grid(row=3, pady=(40, 20))
         problems_frame.grid()
 
@@ -520,11 +523,11 @@ class App(Game):
         button_frame = ttk.Frame(start_frame)
         back_button = ttk.Button(button_frame, text="Back", style="TButton", 
                                 command=back_function)
-        back_button.grid(row=0, column=0, padx=(0, 20), pady=(0, 40), 
+        back_button.grid(row=0, column=0, pady=(0, 40), 
                          sticky="NSEW")
         confirm_button = ttk.Button(button_frame, text="Confirm", 
                                    style="TButton", command=confirm_function)
-        confirm_button.grid(row=0, column=1, padx=(20, 0), pady=(0, 40), 
+        confirm_button.grid(row=0, column=1, pady=(0, 40), 
                             sticky="NSEW")
         button_frame.grid(row=2)
         start_frame.grid()
@@ -658,15 +661,16 @@ class App(Game):
             leaderboard_view.insert("", "end", values=list(row))
         save_button = ttk.Button(buttons_frame, text="Save Score", 
                                  style="TButton", command=save_function)
-        save_button.grid(row=0, column=0, padx=(0, 20), sticky="NSEW")
+        save_button.grid(row=0, column=0, sticky="WE")
         again_button = ttk.Button(buttons_frame, text="Play Again", 
                                   style="TButton", command=again_function)
-        again_button.grid(row=0, column=1, padx=(20, 20), sticky="NSEW")
+        again_button.grid(row=0, column=1, sticky="WE")
         main_menu_button = ttk.Button(end_frame, text="Main Menu",
                                       style="TButton",
                                       command=main_menu_function)
-        buttons_frame.grid(row=3, pady=(0, 20))
+        buttons_frame.grid(row=3, pady=(0, 20), sticky="WE")
         buttons_frame.grid_rowconfigure(0, weight=1)
         buttons_frame.grid_columnconfigure(0, weight=1)
+        buttons_frame.grid_columnconfigure(1, weight=1)
         main_menu_button.grid(row=4, column=0, pady=(0, 20), sticky="NSEW")
         end_frame.grid()
