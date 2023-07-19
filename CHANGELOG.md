@@ -1,4 +1,9 @@
 # Changelog
+## [0.3.3] - 2023-07-19
+### Changed
+- Moved the authorship label on the main menu frame so that it is at the bottom.
+- Repositioned some of the buttons in the frames.
+
 ## [0.3.2] - 2023-07-17
 ### Changed
 - Changed the text in several of the prompts so that it is split across multiple lines.
