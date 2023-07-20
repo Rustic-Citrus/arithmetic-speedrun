@@ -1,4 +1,13 @@
 # Changelog
+## [0.4.0] - 2023-07-20
+### Added
+- Added colours to the application.
+- Added docstrings to some functions.
+
+### Changed
+- Adjusted the difficulty settings to include more arithmetic concepts in the equations, such as decimal and negative numbers.
+- Fixed the view graph button so that the x-axis appears properly labelled.
+
 ## [0.3.3] - 2023-07-19
 ### Changed
 - Moved the authorship label on the main menu frame so that it is at the bottom.
