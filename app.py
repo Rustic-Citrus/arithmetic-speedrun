@@ -7,17 +7,35 @@ from tkinter import ttk
 from tkinter import messagebox
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.dates import DateFormatter, AutoDateLocator
 
-HEADING = ("OCR A Extended", 16)
-BODY = ("Lucida Console", 12)
+def candy_colour(exclude_light=False):
+    """Randomly selects a colour from the colour palette and returns the 
+    hex code associated with it."""
+    if exclude_light:
+        colours = list(filter(lambda x: (x != "LIME") and (x != "LEMONGRASS") 
+                              and ("GREEN" not in x), 
+                              colour_palette.keys()))
+    else:
+        colours = list(colour_palette.keys())[2:]
+    colour = colour_palette[colours[random.randint(0, len(colours)-1)]]
+    return colour
 
+colour_palette = {"BLACK": "#021427", "NAVY": "#031e3a", "TURQUOISE": "#00d5e0",
+                  "ACID_GREEN": "#c6b906", "ORANGE": "#e38f38", 
+                  "CORAL": "#d93d3d", "APPLE_GREEN": "#c3d350","LIME": "#e6f14a", "LEMONGRASS": "#ece032"}
 difficulty_dict = {1: "Easy", 2: "Basic", 3: "Medium", 4: "Moderate",
                    5: "Challenging", 6: "Hard"}
 operation_dict = {"Addition": operator.add, "Subtraction": operator.sub, 
                   "Multiplication": operator.mul, "Division": operator.truediv}
-operator_dict = {"Addition": "+", "Subtraction": "-", 
-                  "Multiplication": "×", "Division": "÷"}
+operator_dict = {"Addition": "+", "Subtraction": "-", "Multiplication": "×", 
+                 "Division": "÷"}
 
+WHITE = "#ffffff"
+BLACK = colour_palette["BLACK"]
+NAVY = colour_palette["NAVY"]
+HEADING = ("OCR A Extended", 16)
+BODY = ("Lucida Console", 12)
 
 class Game:
     def __init__(self, media) -> None:
@@ -51,15 +69,19 @@ class Game:
                 self.operation_name = "Division"
 
     def set_operation(self, operation_name):
+        """Sets the operation_name, operation and operator parameters based on 
+        the string."""
         self.operation_name = operation_name
         self.operation = operation_dict[self.operation_name]
         self.operator = operator_dict[self.operation_name]
     
     def get_elapsed_time(self):
+        """Returns the elapsed time since the timer started."""
         self.elapsed_time = round(time.time() - self.start_time, 3)
         return self.elapsed_time
 
     def get_results(self):
+        """Checks if the correct_ratio is above eighty percent and returns either 'Congratulations' or 'Try again'."""
         if self.correct_ratio >= 0.8:
             self.media.play_sound("high_score")
             return "Congratulations"
@@ -85,20 +107,17 @@ class Game:
             x = y = 0
             match self.difficulty:
                 case 1:
-                    x, y = [random.randint(1, 9) for n in range(2)]
+                    x, y = [random.randint(2, 10) for n in range(2)]
                 case 2:
-                    x = random.randint(10, 99)
-                    y = random.randint(1, 9)
+                    x, y = [random.randint(2, 20) for n in range(2)]
                 case 3:
-                    x = random.randint(100, 999)
-                    y = random.randint(1, 9)
+                    x, y = [random.randint(12, 99) for n in range(2)]
                 case 4:
-                    x, y = [random.randint(10, 99) for n in range(2)]
+                    x, y = [random.randint(100, 999) for n in range(2)]
                 case 5:
-                    x = random.randint(10, 99)
-                    y = random.randint(100, 999)
+                    x, y = [round(random.uniform(12, 99), 2) for n in range(2)]
                 case 6:
-                    x, y = [random.randint(100, 999) 
+                    x, y = [round(random.uniform(-999, 999), 2) 
                             for n in range(2)]
             solution = round(self.operation(x, y), 2)
             equation = f"{x} {self.operator} {y} = x"
@@ -119,6 +138,8 @@ class Game:
 
 
     def check_answer(self, response, solution):
+        """Takes a response and a solution as arguments and checks equality. 
+        Returns a Boolean to represent equality."""
         try:
             if response == solution:
                 return True
@@ -139,9 +160,15 @@ class Game:
     def get_leaderboard(self):
         """Reads, sorts and returns the leaderboard."""
         leaderboard = pd.read_csv("leaderboard.csv")
+        leaderboard["Timestamp"] = leaderboard["Timestamp"].apply(
+            lambda x: pd.to_datetime(x))
+        leaderboard["Timestamp"] = leaderboard["Timestamp"].apply(
+            lambda x: x.strftime("%d/%m/%Y %H:%M"))
         top_ten = leaderboard.sort_values(
             ["Score", "Difficulty", "Elapsed Time"], 
             ascending=[False, False, True])
+        top_ten["Difficulty"] = top_ten["Difficulty"].apply(
+            lambda x: difficulty_dict[x])
         top_ten = top_ten.reset_index(drop=True)
         return top_ten
 
@@ -154,18 +181,19 @@ class Game:
             (leaderboard["Operation"] == self.operation_name)])
         user_data["Timestamp"] = user_data["Timestamp"].apply(
             lambda x: pd.to_datetime(x))
-        date_strings = user_data["Timestamp"].apply(
-            lambda x: x.strftime("%d/%m/%Y %H:%M"))
+
         plt.style.use('dark_background')
         fig, ax = plt.subplots(1, 1)
         fig.suptitle(f"{self.username} - Scores for {self.operation_name}")
         ax.plot(user_data["Timestamp"], user_data["Score"], color="#FFFF00")
         ax.scatter(user_data["Timestamp"], user_data["Score"], color="#FFFFFF")
         ax.set_ylabel("Score")
-        ax.tick_params(axis='x', rotation=45)
         ax.set_xlabel("Date & Time")
-        ax.set_xticklabels(date_strings)
+        date_format = DateFormatter("%d/%m/%Y %H:%M")
+        date_locator = AutoDateLocator()
         ax.tick_params(axis='x', rotation=45)
+        ax.xaxis.set_major_formatter(date_format)
+        ax.xaxis.set_major_locator(date_locator)
         fig.tight_layout()
         plt.show()
 
@@ -175,19 +203,31 @@ class App(Game):
         """Creates an instance of an App class."""
         super().__init__(media)
         self.root = root
+        self.root.configure(bg=BLACK)
+        self.FRAME_STYLE = ttk.Style(self.root)
+        self.FRAME_STYLE.configure("TFrame", background=BLACK)
         self.BUTTON_STYLE = ttk.Style(self.root)
-        self.BUTTON_STYLE.configure("TButton", font=BODY)
+        self.BUTTON_STYLE.configure("TButton", font=BODY,
+                                    background=NAVY, 
+                                    foreground=candy_colour(True))
         self.LABEL_HEADING_STYLE = ttk.Style(self.root)
-        self.LABEL_HEADING_STYLE.configure("Heading.TLabel", font=HEADING)
+        self.LABEL_HEADING_STYLE.configure("Heading.TLabel", font=HEADING, 
+                                           background=BLACK, foreground=WHITE)
         self.LABEL_BODY_STYLE = ttk.Style(self.root)
-        self.LABEL_BODY_STYLE.configure("TLabel", font=BODY)
+        self.LABEL_BODY_STYLE.configure("TLabel", font=BODY, background=BLACK, 
+                                        foreground=WHITE)
         self.LABEL_SMALL_STYLE = ttk.Style(self.root)
         self.LABEL_SMALL_STYLE.configure("Small.TLabel", 
-                                         font=("Lucida Console", 10))
+                                         font=("Lucida Console", 10), 
+                                         background=BLACK, 
+                                         foreground=candy_colour())
         self.SCALE_STYLE = ttk.Style(self.root)
-        self.SCALE_STYLE.configure("TScale", length=200, sliderlength=20)
+        self.SCALE_STYLE.configure("TScale", length=200, sliderlength=20, 
+                                   background=BLACK, foreground=NAVY)
         self.ENTRY_STYLE = ttk.Style(self.root)
-        self.ENTRY_STYLE.configure("TEntry", font=BODY)
+        self.ENTRY_STYLE.configure("TEntry", font=BODY, 
+                                   foreground=candy_colour(True), 
+                                   background=NAVY)
         self.root.title("ArithmeticSpeedrun")
         self.root.geometry("400x600")
         self.root.resizable(False, False)
@@ -220,7 +260,7 @@ class App(Game):
             self.get_leaderboard_frame()
             self.media.play_sound("click_button")
 
-        main_menu_frame = ttk.Frame(self.root)
+        main_menu_frame = ttk.Frame(self.root, style="TFrame")
         greeting_label = ttk.Label(main_menu_frame,
                                    text="Welcome\nto\nArithmetic Speedrun!",
                                    font=HEADING, justify="center")
@@ -429,7 +469,7 @@ class App(Game):
                                  style="Heading.TLabel")
         prompt_label.grid(row=0, pady=(0, 20))
         difficulty_label = ttk.Label(difficulty_frame, text="",
-                                     style="Heading.TLabel")
+                                     style="Small.TLabel")
         difficulty_label.grid(row=1, pady=(0, 20))
         difficulty_scale = ttk.Scale(difficulty_frame, from_=1, to=6,
                                      command=update_difficulty_label, 
@@ -477,7 +517,7 @@ class App(Game):
                                  style="Heading.TLabel", justify="center")
         prompt_label.grid(row=0, pady=(0, 20))
         problem_scale_label = ttk.Label(problems_frame, text="5", 
-                                        style="TLabel", justify="center")
+                                        style="Small.TLabel", justify="center")
         problem_scale_label.grid(row=1, pady=(0, 20))
         problem_scale = ttk.Scale(problems_frame, from_=5, to=50,
                                   command=update_problem_scale_label,
@@ -518,7 +558,7 @@ class App(Game):
                           style="Heading.TLabel", justify="center")
         prompt.grid(row=0, pady=(0, 20))
         parameters_label = ttk.Label(start_frame, text=parameters_text, 
-                                     style="TLabel", justify="center")
+                                     style="Small.TLabel", justify="center")
         parameters_label.grid(row=1, pady=(0, 20))
         button_frame = ttk.Frame(start_frame)
         back_button = ttk.Button(button_frame, text="Back", style="TButton", 
