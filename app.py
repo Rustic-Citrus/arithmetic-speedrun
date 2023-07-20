@@ -589,6 +589,8 @@ class App(Game):
                                    (self.difficulty + 1)) / self.elapsed_time) 
                                    * (self.correct_ratio * 100))
                 self.get_end_frame()
+                self.problem_counter = 0
+                self.correct_answers = 0
             else:
                 correct_response = self.check_answer(float(answer_box.get()), 
                                                     self.solution)
@@ -659,8 +661,6 @@ class App(Game):
 
         def again_function():
             """Resets important game attributes and displays username frame."""
-            self.problem_counter = 0
-            self.correct_answers = 0
             end_frame.grid_remove()
             self.get_username_frame()
             self.media.play_sound("click_button")
