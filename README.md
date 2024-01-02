@@ -1,5 +1,40 @@
 # Arithmetic Speedrun!
 
+**Author**: Harry Stuart Curtis
+
+**Published**: 2023-07-02
+
+**Last Updated**: 2024-01-02
+
+## Getting Started
+
+### Windows
+
+1. Download [arithmetic_speedrun.exe](arithmetic_speedrun.exe).
+2. Execute the file.
+
+### Linux
+
+1. Clone the directory to your system.
+
+```bash
+git clone https://github.com/Rustic-Citrus/arithmetic-speedrun
+```
+
+Make sure you navigate into the cloned directory.
+
+2. Install the required packages and modules into your virtual environment.
+
+```
+pip install requirements.txt
+```
+
+3. Execute the application.
+
+```
+python main.py
+```
+
 ## Introduction
 
 This is a simple maths game that I made using Python. The goal is to solve as many arithmetic equations as quickly as possible, and in doing so, help the user improve their core mathematical skills. At the end of every round, you receive a score that is calculated based on the difficulty, the total number of problems, how many of those problems you got correct, and how long you took. 
