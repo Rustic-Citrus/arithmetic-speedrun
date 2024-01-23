@@ -1,4 +1,9 @@
 # Changelog
+## [1.0.0] - 2024-01-23
+### Changed
+- Removed the exectuable file and related files from the repository, as they significantly increased the size of the project.
+- Updated the README.md file to contain clearer instructions for running the application.
+
 ## [0.4.0] - 2023-07-20
 ### Added
 - Added colours to the application.
