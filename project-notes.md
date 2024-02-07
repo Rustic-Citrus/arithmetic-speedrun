@@ -19,6 +19,8 @@
 
 ## Introduction
 
+After having successfully made Arithmetic Speedrun, I realised that all of my work, as it currently stood, was only serving half its purpose. Yes, the app does work, and it can be used to practice your basic arithmetics. The problem is that it doesn't wholly serve
+
 ## Requirements
 
 ## Design
