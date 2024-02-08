@@ -19,8 +19,6 @@
 
 ## Introduction
 
-**Date**: 2024-02-07
-
 After having successfully made Arithmetic Speedrun, I realised that I had only done a fraction of the work. While it is true the app does what it was supposed to do (i.e. it can be used to practice your basic arithmetic), the problem is that the project doesn't actually demonstrate that I can develop software. I haven't shown how I planned the app. I haven't shown how I took into consideration implementing some features and not including others. Therefore, I haven't actually shown that I know how to develop software.
 
 In all honesty, I never set out a formal plan to make Arithmetic Speedrun. It was a way for me to practice writing Python, and I was curious how to make a standalone application with a GUI, that was all. Now I look back at the result, and I'm rather pleased with it. Granted, it's not particularly revolutionary, but it does what it says on the tin.
@@ -31,11 +29,13 @@ I have a feeling that it will.
 
 ## Requirements
 
-**Date**: 2024-02-07
-
 The intention is for the final product to be completely free. I don't want anyone to have to pay for it, and have no intention of every charging for it. From the outset, I assume that no-one outside of my sphere of influence (e.g. family, friends, colleagues) will ever use my game to learn arithmetics. There are plenty of free maths games on the internet. One more in the market will probably go unnoticed. Nevertheless, I'd like my son or daughter to use it one day, when and if I become a father.
 
 The project depends on my having the time, the energy, and the will to complete it. There are no financial risks. It is completely free, and it will only cost me my own time to create it. In a sense, there is the risk that I will spend a great deal of time, and not have anything at the end. Then again, I already have a functional application, and the reward of having learned about managing a software development project will have offset that risk. At least I hope so.
+
+The final product will be an application hosted as a static web application hosted through Azure. It will work on desktop and mobile applications.
+
+Users will be able to save their scores with a username and password. High scores will be visible to the community, and players will be able to choose to compare their results with others or not.
 
 My metrics for success are simple: 
 
@@ -51,6 +51,10 @@ Additionally, I will be immensely pleased if:
 In terms of how long I intend to spend on this project, I consider this a medium-term personal project. Thus, I hope to complete it in 6 months to 1 year. But, as I mentioned before, there are few risks involved. The deadline is more of a guideline, an estimate, than anything.
 
 ## Design
+
+A minimalist design appeals to me. Aptly, I think an application connected to something as pure, and clinical as mathematics, lends itself well to minimalism.
+
+It should follow a design principle similar to other games. There should be a main menu. From there, the user should be able to play the game, log in, see account settings, see the instructions, or exit the app.
 
 ## Implementation
 
