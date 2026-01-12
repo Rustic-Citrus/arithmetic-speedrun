@@ -1,4 +1,13 @@
 # Changelog
+
+## [1.0.1] - 2026-01-12
+### Removed
+- Environment-specific directories (e.g. `__pycache__` and `venv`), which shouldn't have been in the repository in the first place.
+
+### Changed
+- Updated the install instructions, as they weren't working for all users.
+- Updated the README.md file because it really is surprising how much your writing style can change in 2 years.
+
 ## [1.0.0] - 2024-01-23
 ### Changed
 - Removed the exectuable file and related files from the repository, as they significantly increased the size of the project.
