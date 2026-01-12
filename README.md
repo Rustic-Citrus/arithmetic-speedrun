@@ -98,9 +98,7 @@ Around that time, I also thought that I might suffer from maths anxiety. This re
 
 With a bit of persistence, I got through the course. Granted, with some help from a Brazilian maths teacher colleague.
 
-I had managed to stay positive, but I haven't always had a growth mindset,an ability to see failure as an opportunity. For a long time, I looked at my lack of mathematical skill as something fixed, something that would be that way for the rest of my life. One of the positive aspects of my experience as a teacher was that I learned how to learn. I learned to have a growth mindset. 
-
-For those unfamiliar with a growth mindset, the idea is that scientific research has shown that our abilities are not usually set in stone at birth. Sure, some people do have a genetic advantage in some areas, but for the most part, it's our environment and our behaviour that shape how well we do. Learning about the concept of a growth mindset helped me to face my maths anxiety.
+I had managed to stay positive, but I haven't always had a growth mindset, an ability to see failure as an opportunity. For a long time, I looked at my lack of mathematical skill as something fixed, something that would be that way for the rest of my life. One of the positive aspects of my experience as a teacher was that I learned how to learn. I learned to have a growth mindset. 
 
 The realisation that most ten year-olds are better mathematicians than you is quite intellectually humbling. I imagined myself sitting down to do homework with my son or daughter in the future, then realising that they knew more than I did. I wanted to be able to support them. As my understanding of the concepts improved, I realised that my confidence was still far behind. That's why I built Arithmetic Speedrun.
 
